@@ -1,54 +1,56 @@
 package com.techlab.spring.service;
 
 import com.techlab.spring.model.Producto;
-import com.techlab.spring.service.interfaces.IProductoService;
+import com.techlab.spring.service.interfaces.ProductoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
 @Service
-public class ProductoService implements IProductoService {
-    //simular un base de datos en memoria
+public class ProductoService {
+    private final ProductoRepository repo;
 
-    private final List<Producto> productos = new ArrayList<>();
-    private int contadorId = 1;
-
-    public Producto guardar(Producto p){
-        p.setId(contadorId++);
-        productos.add(p);
-        return  p;
+    @Autowired
+    public ProductoService(ProductoRepository repo) {
+        this.repo = repo;
     }
 
-    public Producto actualizar(int id,Producto producto){
-        Producto p = buscarPorId(id);
-        if  (p != null){
-            p.setNombre(p.getNombre());
-            p.setPrecio(p.getPrecio());
-        }
-        return p;
-    }
-
-    public boolean eliminar(int id){
-        return productos.removeIf(p -> p.getId() == id );
-    }
-
-    @Override
     public List<Producto> listarProductos() {
-        return productos;
+        return repo.findAll();
     }
-    @Override
-    public Producto buscarPorId(Integer id) {
-        if(id  >= 0 && id < productos.size()){
-            return productos.get(id);
+
+    public Producto orbtenerPordId(int id) {
+        return repo.findById(id).orElse(null);
+    }
+
+    public List<Producto> obtenerPorNombre(String nombre) {
+        return repo.findByNombreIgnoreCase(nombre);
+    }
+
+    public Producto crear(Producto p) {
+        return repo.save(p);
+    }
+
+    public Producto actualizar(int id, Producto datos) {
+        Producto p = orbtenerPordId(id);
+        if (p != null) {
+            p.setNombre(datos.getNombre());
+            p.setPrecio(datos.getPrecio());
+            p.setCantidadStock(datos.getCantidadStock());
+            p.setCategoria(datos.getCategoria());
+            p.setDescripcion(datos.getDescripcion());
+            return repo.save(p);
         }
         return null;
-
-    /*@Override
-    public String crearProducto(Producto producto) {
-        producto.setPrecio((producto.getPrecio()));
-        productos.add(producto);
-        return "Producto creado correctamente";
     }
-    }*/
+
+    public boolean eliminar(int id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
-}
+

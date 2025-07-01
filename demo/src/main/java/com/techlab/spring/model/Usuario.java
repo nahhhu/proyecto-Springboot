@@ -1,22 +1,22 @@
 package com.techlab.spring.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "usuario")
 public class Usuario {
-    private String nombre;
-    private String apellido;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String username;
+    private String password;
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 }

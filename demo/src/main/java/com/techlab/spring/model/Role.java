@@ -1,21 +1,22 @@
 package com.techlab.spring.model;
-
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "producto")
-public class Producto {
+@ToString
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nombre;
-    private Double precio;
-    private Integer cantidadStock;
-    private String categoria;
-    private String descripcion;
+
+    @Column(unique = true, nullable = false)
+    private String name;
+
+
+
 }

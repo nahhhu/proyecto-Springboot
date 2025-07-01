@@ -10,38 +10,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/producto")
-public class ProductController{
+public class ProductController {
     private final ProductoService productoService;
+
     @Autowired
-    public ProductController(ProductoService productoService){
+    public ProductController(ProductoService productoService) {
         this.productoService = productoService;
     }
 
-    @GetMapping("/list")
-    public List<Producto> listaProductos(){
+    @GetMapping("/listar")
+    public List<Producto> listarProductos() {
         return productoService.listarProductos();
     }
 
-    @PostMapping("/")
-    public Producto crearProducto(@RequestBody Producto producto){
-        productoService.guardar(producto);
-        return producto;
+    @GetMapping("/obtener/{id}")
+    public Producto obtenerProducto(@PathVariable int id) {
+        System.out.println("Buscando id: " + id);
+        return productoService.orbtenerPordId(id);
     }
 
-
-    //pathvariable aclara que el valor que toma buscarproducto es el valor de getmapping y devuelve eso
-    @GetMapping("/find/{id}")
-    public String buscarProductos(@PathVariable Long id){
-        return "Buscando..." +  id;
-        //deberia ir la logica para buscar un producto
+    @GetMapping("/obtener/nombre/{nombre}")
+    public List<Producto> obtenerPorNombre(@PathVariable String nombre) {
+        System.out.println("Buscando productos con nombre: " + nombre);
+        return productoService.obtenerPorNombre(nombre);
     }
 
-    // ../find/342 -> devuelve producto cuyo id es 342
-    //  ../find/{id}/precio -> El endpoint es dinamico, solo es dinamico el id.
-
-    @GetMapping("/buscar")
-    public String buscarProducto(@RequestParam String nombre, @RequestParam(required = false,  defaultValue = "asc") String orden ){
-        return "Buscando... nombre  " + nombre + "Orden: " + orden;
+    @PostMapping("/crear")
+    public Producto crearProducto(@RequestBody Producto nuevo) {
+        return productoService.crear(nuevo);
     }
 
+    @PutMapping("/actualizar/{id}")
+    public Producto actualizarProducto(@PathVariable int id, @RequestBody Producto datos) {
+        return productoService.actualizar(id, datos);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarProducto(@PathVariable int id) {
+        productoService.eliminar(id);
+    }
 }
