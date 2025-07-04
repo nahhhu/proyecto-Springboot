@@ -30,14 +30,14 @@ public class ProductController {
         return productoService.obtenerPorId(id);
     }
 
-    @GetMapping("/find/{nombre}")
+    @GetMapping("/find/name/{nombre}")
     public List<Producto> obtenerPorNombre(@PathVariable String nombre) {
         System.out.println("Buscando productos con nombre: " + nombre);
         return productoService.obtenerPorNombre(nombre);
     }
 
-    @GetMapping("/find/{categoria}")
-    public List<Producto> obtenerPorCategoria(String categoria){
+    @GetMapping("/find/category/{categoria}")
+    public List<Producto> obtenerPorCategoria(@PathVariable String categoria){
         System.out.println("Buscando por la categoria" + categoria);
         return productoService.obtenerPorCategoria(categoria);
     }

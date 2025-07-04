@@ -1,5 +1,6 @@
 package com.techlab.spring.service;
 
+import com.techlab.spring.exception.ProductExistsException;
 import com.techlab.spring.model.Producto;
 import com.techlab.spring.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,21 @@ public class ProductoService implements IProductoService {
 
     @Override
     public Producto crear(Producto p) {
+        boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod ->prod.getNombre().equalsIgnoreCase(p.getNombre()));
+        if (exists){
+            throw new ProductExistsException("El producto '" + p.getNombre() +"' ya existe");
+        }
         return repo.save(p);
     }
 
     @Override
     public List<Producto> crearProductos(List<Producto> productos){
+        for (Producto p : productos) {
+            boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
+            if (exists) {
+                throw new ProductExistsException("Alguno de los productos ingresados ya existen");
+            }
+        }
         return repo.saveAll(productos);
     }
 
