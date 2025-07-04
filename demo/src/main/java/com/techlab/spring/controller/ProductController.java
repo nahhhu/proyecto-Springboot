@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/find/category/{categoria}")
-    public List<Producto> obtenerPorCategoria(@PathVariable String categoria){
+    public List<Producto> obtenerPorCategoria(@PathVariable String categoria) {
         System.out.println("Buscando por la categoria" + categoria);
         return productoService.obtenerPorCategoria(categoria);
     }
@@ -48,7 +48,7 @@ public class ProductController {
     }
 
     @PostMapping("/batch")//recibe un conjunto de datos(lista de productos)
-    public List<Producto> crearProductos(@Valid @RequestBody List<Producto> productos){
+    public List<Producto> crearProductos(@Valid @RequestBody List<Producto> productos) {
         return productoService.crearProductos(productos);
     }
 

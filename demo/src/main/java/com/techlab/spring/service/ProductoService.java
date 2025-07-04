@@ -33,21 +33,21 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public List<Producto> obtenerPorCategoria(String categoria){
+    public List<Producto> obtenerPorCategoria(String categoria) {
         return repo.findByCategoria(categoria);
     }
 
     @Override
     public Producto crear(Producto p) {
-        boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod ->prod.getNombre().equalsIgnoreCase(p.getNombre()));
-        if (exists){
-            throw new ProductExistsException("El producto '" + p.getNombre() +"' ya existe");
+        boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
+        if (exists) {
+            throw new ProductExistsException("El producto '" + p.getNombre() + "' ya existe");
         }
         return repo.save(p);
     }
 
     @Override
-    public List<Producto> crearProductos(List<Producto> productos){
+    public List<Producto> crearProductos(List<Producto> productos) {
         for (Producto p : productos) {
             boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
             if (exists) {
