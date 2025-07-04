@@ -33,7 +33,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> obtenerPorCategoria(String categoria){
-        return repo.fingByCategoria(categoria);
+        return repo.findByCategoria(categoria);
     }
 
     @Override
