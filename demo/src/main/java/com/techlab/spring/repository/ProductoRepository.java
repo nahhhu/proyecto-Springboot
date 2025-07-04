@@ -1,4 +1,4 @@
-package com.techlab.spring.service.interfaces;
+package com.techlab.spring.repository;
 
 import com.techlab.spring.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findByNombreIgnoreCase(String nombre);
+    List<Producto> fingByCategoria(String categoria);
 }
