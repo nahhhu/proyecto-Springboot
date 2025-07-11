@@ -1,6 +1,7 @@
 package com.techlab.spring.service;
 
-import com.techlab.spring.exception.ProductExistsException;
+import com.techlab.spring.exception.ProductoDuplicadoException;
+import com.techlab.spring.exception.ProductoNotFoundException;
 import com.techlab.spring.model.Producto;
 import com.techlab.spring.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,34 +25,43 @@ public class ProductoService implements IProductoService {
 
     @Override
     public Producto obtenerPorId(int id) {
-        return repo.findById(id).orElse(null);
+       return repo.findById(id).orElseThrow(() -> new ProductoNotFoundException("El producto con id: " + id + " no existe"));
     }
 
     @Override
     public List<Producto> obtenerPorNombre(String nombre) {
-        return repo.findByNombreIgnoreCase(nombre);
+        List<Producto> productos = repo.findByNombreIgnoreCase(nombre);
+
+        if (productos.isEmpty()){
+            throw new ProductoNotFoundException("No se han encontrado productos con el nombre:" + nombre );
+        }
+        return productos;
     }
 
     @Override
-    public List<Producto> obtenerPorCategoria(String categoria) {
-        return repo.findByCategoria(categoria);
+    public List<Producto> obtenerPorCategoria(String categoria){
+       List<Producto> productos = repo.findByCategoria(categoria);
+       if (productos.isEmpty()){
+           throw new ProductoNotFoundException("La categoria: " + categoria + " no existe");
+       }
+       return productos;
     }
 
     @Override
     public Producto crear(Producto p) {
-        boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
-        if (exists) {
-            throw new ProductExistsException("El producto '" + p.getNombre() + "' ya existe");
-        }
+       boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
+       if (exists){
+           throw new ProductoDuplicadoException("El producto"+ p.getNombre() + " ya existe");
+       }
         return repo.save(p);
     }
 
     @Override
-    public List<Producto> crearProductos(List<Producto> productos) {
-        for (Producto p : productos) {
-            boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
-            if (exists) {
-                throw new ProductExistsException("Alguno de los productos ingresados ya existen");
+    public List<Producto> crearProductos(List<Producto> productos){
+        for (Producto p : productos){
+            boolean exists = repo.findByNombreIgnoreCase(p.getNombre()).stream().anyMatch(prod  -> prod.getNombre().equalsIgnoreCase(p.getNombre()));
+            if (exists){
+                throw new ProductoDuplicadoException("El producto: " + p.getNombre() + " ya existe");
             }
         }
         return repo.saveAll(productos);
