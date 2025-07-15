@@ -19,5 +19,23 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body("Error: " + ex.getMessage());
     }
+
+    @ExceptionHandler(CrearPedidoException.class)
+    public ResponseEntity<String> createOrderError(CrearPedidoException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Error: " +ex.getMessage());
+    }
+
+    @ExceptionHandler(PedidoNotFoundException.class)
+    public ResponseEntity<String> orderNotFound(PedidoNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Error: "+ ex.getMessage());
+    }
+
+    @ExceptionHandler(PedidoListException.class)
+    public ResponseEntity<String> orderListError(PedidoListException ex){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body("Error: " + ex.getMessage());
+    }
 }
 
