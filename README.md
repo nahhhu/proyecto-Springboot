@@ -1,2 +1,2 @@
 ## Proyecto de backend basico con SpringBoot
-En proceso...
+Proyecto que aplica los conocimientos obtenidos en el bootcamp de talento tech
