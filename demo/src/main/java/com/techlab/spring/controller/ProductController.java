@@ -1,7 +1,7 @@
 package com.techlab.spring.controller;
 
 
-import com.techlab.spring.model.Producto;
+import com.techlab.spring.entity.Producto;
 import com.techlab.spring.service.ProductoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,25 +21,25 @@ public class ProductController {
         this.productoService = productoService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public ResponseEntity<List<Producto>> listarProductos() {
         List<Producto> productos = productoService.listarProductos();
         return ResponseEntity.ok(productos);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Producto> obtenerProducto(@PathVariable int id) {
         Producto productoEncontrado = productoService.obtenerPorId(id);
         return ResponseEntity.ok(productoEncontrado);
     }
 
-    @GetMapping("/find/name/{nombre}")
+    @GetMapping("/name/{nombre}")
     public ResponseEntity<List<Producto>> obtenerPorNombre(@PathVariable String nombre) {
         List<Producto> productosPorNombre = productoService.obtenerPorNombre(nombre);
         return ResponseEntity.ok(productosPorNombre);
     }
 
-    @GetMapping("/find/category/{categoria}")
+    @GetMapping("/category/{categoria}")
     public ResponseEntity<List<Producto>> obtenerPorCategoria(@PathVariable  String categoria){
         List<Producto> productosPorCategoria = productoService.obtenerPorCategoria(categoria);
         return ResponseEntity.ok(productosPorCategoria);
@@ -51,7 +51,7 @@ public class ProductController {
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
 
-    @PostMapping("/batch")//recibe un conjunto de datos(lista de productos)
+    @PostMapping("/list")//recibe un conjunto de datos(lista de productos)
     public ResponseEntity<List<Producto>> crearProductos(@Valid @RequestBody List<Producto> productos){
         List<Producto> creado = productoService.crearProductos(productos);
         return new ResponseEntity<>(creado, HttpStatus.CREATED);

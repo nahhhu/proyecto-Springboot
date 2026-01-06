@@ -2,7 +2,7 @@ package com.techlab.spring.service;
 
 import com.techlab.spring.exception.ProductoDuplicadoException;
 import com.techlab.spring.exception.ProductoNotFoundException;
-import com.techlab.spring.model.Producto;
+import com.techlab.spring.entity.Producto;
 import com.techlab.spring.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

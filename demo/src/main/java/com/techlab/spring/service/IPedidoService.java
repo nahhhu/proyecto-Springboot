@@ -1,6 +1,6 @@
 package com.techlab.spring.service;
 
-import com.techlab.spring.model.Pedido;
+import com.techlab.spring.entity.Pedido;
 
 import java.util.List;
 

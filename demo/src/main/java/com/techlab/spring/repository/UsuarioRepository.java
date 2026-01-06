@@ -1,6 +1,6 @@
 package com.techlab.spring.repository;
 
-import com.techlab.spring.model.Usuario;
+import com.techlab.spring.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

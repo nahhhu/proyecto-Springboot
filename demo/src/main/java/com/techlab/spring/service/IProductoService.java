@@ -1,6 +1,6 @@
 package com.techlab.spring.service;
 
-import com.techlab.spring.model.Producto;
+import com.techlab.spring.entity.Producto;
 
 import java.util.List;
 

@@ -3,9 +3,9 @@ package com.techlab.spring.service;
 import com.techlab.spring.exception.CrearPedidoException;
 import com.techlab.spring.exception.PedidoListException;
 import com.techlab.spring.exception.PedidoNotFoundException;
-import com.techlab.spring.model.Pedido;
-import com.techlab.spring.model.Producto;
-import com.techlab.spring.model.Usuario;
+import com.techlab.spring.entity.Pedido;
+import com.techlab.spring.entity.Producto;
+import com.techlab.spring.entity.Usuario;
 import com.techlab.spring.repository.PedidoRepository;
 import com.techlab.spring.repository.ProductoRepository;
 import com.techlab.spring.repository.UsuarioRepository;
@@ -58,4 +58,5 @@ public class PedidoService implements IPedidoService{
         Pedido pedidos = repo.findById(id).orElseThrow(() -> new PedidoNotFoundException("El pedido con ID: " + id + "no existe"));
         return pedidos;
     }
+
 }

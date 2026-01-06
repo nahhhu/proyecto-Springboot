@@ -1,6 +1,6 @@
 package com.techlab.spring.controller;
 
-import com.techlab.spring.model.Pedido;
+import com.techlab.spring.entity.Pedido;
 import com.techlab.spring.service.PedidoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
