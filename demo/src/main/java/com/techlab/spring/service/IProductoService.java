@@ -1,23 +1,24 @@
 package com.techlab.spring.service;
 
+import com.techlab.spring.dto.ProductoDTO;
 import com.techlab.spring.entity.Producto;
 
 import java.util.List;
 
 public interface IProductoService {
-    Producto crear(Producto producto);
+    ProductoDTO crear(ProductoDTO productoDTO);
 
-    List<Producto> crearProductos(List<Producto> productos);
+    List<ProductoDTO> crearProductos(List<ProductoDTO> productosDTO);
 
-    List<Producto> listarProductos();
+    List<ProductoDTO> listarProductos();
 
-    Producto obtenerPorId(int id);
+    ProductoDTO obtenerPorId(int id);
 
-    List<Producto> obtenerPorNombre(String nombre);
+    List<ProductoDTO> obtenerPorNombre(String nombre);
 
-    List<Producto> obtenerPorCategoria(String categoria);
+    List<ProductoDTO> obtenerPorCategoria(String categoria);
 
-    Producto actualizar(int id, Producto datos);
+    ProductoDTO actualizar(int id, ProductoDTO datosDto);
 
     Boolean eliminar(int id);
 }
