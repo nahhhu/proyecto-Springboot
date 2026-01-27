@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,9 +21,18 @@ public class Pedido {
 
     private String estado;
 
+    private double total;
+
+    private LocalDateTime fecha;
+
     @ManyToOne
     private Usuario usuario;
 
     @ManyToMany
     private List<Producto> productos;
+
+    @PrePersist
+    protected void onCreate(){
+        this.fecha = LocalDateTime.now();
+    }
 }
