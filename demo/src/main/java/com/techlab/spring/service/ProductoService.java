@@ -1,9 +1,9 @@
 package com.techlab.spring.service;
 
 import com.techlab.spring.dto.ProductoDTO;
+import com.techlab.spring.entity.Producto;
 import com.techlab.spring.exception.ProductoDuplicadoException;
 import com.techlab.spring.exception.ProductoNotFoundException;
-import com.techlab.spring.entity.Producto;
 import com.techlab.spring.mapper.ProductoMapper;
 import com.techlab.spring.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,46 +25,46 @@ public class ProductoService implements IProductoService {
 
     @Override
     public ProductoDTO obtenerPorId(int id) {
-       return repo.findById(id)
-               .map(mapper::toDto)
-               .orElseThrow(()-> new ProductoNotFoundException("El producto con el id: " + id + " no existe"));
+        return repo.findById(id)
+                .map(mapper::toDto)
+                .orElseThrow(() -> new ProductoNotFoundException("El producto con el id: " + id + " no existe"));
     }
 
     @Override
     public List<ProductoDTO> obtenerPorNombre(String nombre) {
         List<Producto> productos = repo.findByNombreIgnoreCase(nombre);
 
-        if (productos.isEmpty()){
-            throw new ProductoNotFoundException("No se han encontrado productos con el nombre:" + nombre );
+        if (productos.isEmpty()) {
+            throw new ProductoNotFoundException("No se han encontrado productos con el nombre:" + nombre);
         }
         return mapper.toDtoList(productos);
     }
 
     @Override
-    public List<ProductoDTO> obtenerPorCategoria(String categoria){
-       List<Producto> productos = repo.findByCategoria(categoria);
-       if (productos.isEmpty()){
-           throw new ProductoNotFoundException("La categoria: " + categoria + " no existe");
-       }
-       return mapper.toDtoList(productos);
+    public List<ProductoDTO> obtenerPorCategoria(String categoria) {
+        List<Producto> productos = repo.findByCategoria(categoria);
+        if (productos.isEmpty()) {
+            throw new ProductoNotFoundException("La categoria: " + categoria + " no existe");
+        }
+        return mapper.toDtoList(productos);
     }
 
     @Override
     public ProductoDTO crear(ProductoDTO p) {
-       if(repo.existsByNombreIgnoreCase(p.getNombre())){
-           throw new ProductoDuplicadoException("El producto " + p.getNombre() + " ya existe");
-       }
+        if (repo.existsByNombreIgnoreCase(p.nombre())) {
+            throw new ProductoDuplicadoException("El producto " + p.nombre() + " ya existe");
+        }
 
-       Producto entidad = mapper.toEntity(p);
-       Producto guardado = repo.save(entidad);
-       return  mapper.toDto(guardado);
+        Producto entidad = mapper.toEntity(p);
+        Producto guardado = repo.save(entidad);
+        return mapper.toDto(guardado);
     }
 
     @Override
-    public List<ProductoDTO> crearProductos(List<ProductoDTO> productos){
-        for (ProductoDTO p : productos){
-            if (repo.existsByNombreIgnoreCase(p.getNombre())){
-                throw new ProductoDuplicadoException("El producto: " + p.getNombre() + " ya existe");
+    public List<ProductoDTO> crearProductos(List<ProductoDTO> productos) {
+        for (ProductoDTO p : productos) {
+            if (repo.existsByNombreIgnoreCase(p.nombre())) {
+                throw new ProductoDuplicadoException("El producto: " + p.nombre() + " ya existe");
             }
         }
 
@@ -75,7 +75,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public ProductoDTO actualizar(int id, ProductoDTO datos) {
-        Producto existe = repo.findById(id).orElseThrow(()-> new ProductoNotFoundException("No se puede actualizar. El producto con id " + id + " no existe."));
+        Producto existe = repo.findById(id).orElseThrow(() -> new ProductoNotFoundException("No se puede actualizar. El producto con id " + id + " no existe."));
 
         mapper.updateEntityFromDto(datos, existe);
 

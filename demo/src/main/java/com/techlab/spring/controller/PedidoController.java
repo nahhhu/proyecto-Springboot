@@ -1,6 +1,7 @@
 package com.techlab.spring.controller;
 
-import com.techlab.spring.entity.Pedido;
+import com.techlab.spring.dto.PedidoRequestDTO;
+import com.techlab.spring.dto.PedidoResponseDTO;
 import com.techlab.spring.service.PedidoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,25 +15,25 @@ public class PedidoController {
 
     private final PedidoService service;
 
-    public PedidoController(PedidoService service){
+    public PedidoController(PedidoService service) {
         this.service = service;
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedido){
-        Pedido nuevo = service.crearPedido(pedido);
+    public ResponseEntity<PedidoResponseDTO> crearPedido(@RequestBody PedidoRequestDTO pedidoRequest) {
+        PedidoResponseDTO nuevo = service.crearPedido(pedidoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Pedido>> listarPedido(){
-        List<Pedido> pedidos = service.listarPedidos();
+    public ResponseEntity<List<PedidoResponseDTO>> listarPedido() {
+        List<PedidoResponseDTO> pedidos = service.listarPedidos();
         return ResponseEntity.ok(pedidos);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Pedido> buscarPorId(@PathVariable int id){
-        Pedido pedidoEncontrado = service.buscarPedido(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<PedidoResponseDTO> buscarPorId(@PathVariable int id) {
+        PedidoResponseDTO pedidoEncontrado = service.buscarPedido(id);
         return ResponseEntity.ok(pedidoEncontrado);
     }
 }

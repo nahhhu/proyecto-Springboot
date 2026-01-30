@@ -1,0 +1,24 @@
+meta {
+  name: Crear Pedido
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:8080/pedido/crear
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombreUsuario": "nahuel",
+    "emailUsuario": "nahuel@gmail.com",
+    "productosId": [1, 2]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

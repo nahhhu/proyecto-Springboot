@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class Pedido {
     private List<Producto> productos;
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.fecha = LocalDateTime.now();
     }
 }

@@ -2,7 +2,6 @@ package com.techlab.spring.controller;
 
 
 import com.techlab.spring.dto.ProductoDTO;
-import com.techlab.spring.entity.Producto;
 import com.techlab.spring.service.ProductoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping("/category/{categoria}")
-    public ResponseEntity<List<ProductoDTO>> obtenerPorCategoria(@PathVariable  String categoria){
+    public ResponseEntity<List<ProductoDTO>> obtenerPorCategoria(@PathVariable String categoria) {
         List<ProductoDTO> productosPorCategoria = productoService.obtenerPorCategoria(categoria);
         return ResponseEntity.ok(productosPorCategoria);
     }
@@ -53,7 +52,7 @@ public class ProductController {
     }
 
     @PostMapping("/list")//recibe un conjunto de datos(lista de productos)
-    public ResponseEntity<List<ProductoDTO>> crearProductos(@Valid @RequestBody List<ProductoDTO> productos){
+    public ResponseEntity<List<ProductoDTO>> crearProductos(@Valid @RequestBody List<ProductoDTO> productos) {
         List<ProductoDTO> creado = productoService.crearProductos(productos);
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
@@ -61,7 +60,7 @@ public class ProductController {
     @PutMapping("/update/{id}")
     public ResponseEntity<ProductoDTO> actualizarProducto(@PathVariable int id, @Valid @RequestBody ProductoDTO datos) {
         ProductoDTO productoActualizado = productoService.actualizar(id, datos);
-        return  ResponseEntity.ok(productoActualizado);
+        return ResponseEntity.ok(productoActualizado);
     }
 
     @DeleteMapping("/delete/{id}")

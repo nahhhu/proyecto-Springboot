@@ -25,7 +25,6 @@ public abstract class PedidoMapper {
     protected ProductoRepository productoRepository;
 
 
-
     @Mapping(target = "usuario", source = "usuario")
     @Mapping(target = "productos", source = "productos")
     public abstract PedidoResponseDTO toResponseDto(Pedido pedido);
@@ -38,10 +37,10 @@ public abstract class PedidoMapper {
         }
         Pedido pedido = new Pedido();
 
-        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId()).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+        Usuario usuario = usuarioRepository.findByEmail(dto.emailUsuario()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         pedido.setUsuario(usuario);
 
-        List<Producto> productos = dto.getProductosId().stream().map(id-> productoRepository.findById(id).orElseThrow(()-> new RuntimeException("Producto: "+ id +" no encontrado"))).collect(Collectors.toList());
+        List<Producto> productos = dto.productosId().stream().map(id -> productoRepository.findById(id).orElseThrow(() -> new RuntimeException("Producto: " + id + " no encontrado"))).collect(Collectors.toList());
         pedido.setProductos(productos);
 
         return pedido;
