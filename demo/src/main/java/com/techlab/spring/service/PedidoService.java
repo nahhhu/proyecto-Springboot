@@ -6,7 +6,6 @@ import com.techlab.spring.entity.Pedido;
 import com.techlab.spring.entity.Producto;
 import com.techlab.spring.entity.Usuario;
 import com.techlab.spring.exception.CrearPedidoException;
-import com.techlab.spring.exception.PedidoListException;
 import com.techlab.spring.exception.PedidoNotFoundException;
 import com.techlab.spring.mapper.PedidoMapper;
 import com.techlab.spring.repository.PedidoRepository;
@@ -72,11 +71,6 @@ public class PedidoService implements IPedidoService {
     @Override
     public List<PedidoResponseDTO> listarPedidos() {
         List<Pedido> pedidos = repo.findAll();
-
-        if (pedidos.isEmpty()) {
-            throw new PedidoListException("No hay pedidos para mostrar");
-        }
-
         return pedidoMapper.pedidoResponseDTOList(pedidos);
     }
 
