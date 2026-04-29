@@ -53,7 +53,7 @@ public class PedidoService implements IPedidoService {
 
         //validamos los productos
         if (pedido.getProductos() == null || pedido.getProductos().isEmpty()) {
-            throw new CrearPedidoException("No se puede crear un pedido sin productos");
+            throw new CrearPedidoException(" No se puede crear un pedido sin productos");
         }
 
         //seteamos fecha, estado y precio total
