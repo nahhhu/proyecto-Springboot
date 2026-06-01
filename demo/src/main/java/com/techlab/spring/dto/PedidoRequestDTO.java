@@ -1,17 +1,21 @@
 package com.techlab.spring.dto;
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
 public record PedidoRequestDTO(
-        @NotNull(message = "El ID del usuario debe ser obligartorio")
+        @NotBlank(message = "El nombre de usuario es obligatorio")
         String nombreUsuario,
+
+        @NotBlank(message = "El email de usuario es obligatorio")
+        @Email(message = "Debe tener un formato email valido")
         String emailUsuario,
 
-        @NotEmpty(message = "La lista de productos no puede estar vacis")
+        @NotEmpty(message = "La lista de productos no puede estar vacia")
         List<Integer> productosId
 ) {
 }

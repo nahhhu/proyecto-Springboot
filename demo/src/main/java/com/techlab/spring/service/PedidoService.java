@@ -9,7 +9,6 @@ import com.techlab.spring.exception.CrearPedidoException;
 import com.techlab.spring.exception.PedidoNotFoundException;
 import com.techlab.spring.mapper.PedidoMapper;
 import com.techlab.spring.repository.PedidoRepository;
-import com.techlab.spring.repository.ProductoRepository;
 import com.techlab.spring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +19,15 @@ import java.util.List;
 @Service
 public class PedidoService implements IPedidoService {
 
-    @Autowired
     private final PedidoRepository repo;
-    @Autowired
     public PedidoMapper pedidoMapper;
-    @Autowired
     private UsuarioRepository usuarioRepo;
-    @Autowired
-    private ProductoRepository productoRepo;
 
-    public PedidoService(PedidoRepository repo) {
+
+    public PedidoService(PedidoRepository repo, PedidoMapper pedidoMapper, UsuarioRepository usuarioRepo) {
         this.repo = repo;
+        this.pedidoMapper = pedidoMapper;
+        this.usuarioRepo = usuarioRepo;
     }
 
     @Override
@@ -49,7 +46,6 @@ public class PedidoService implements IPedidoService {
 
         //seteamos el usuario
         pedido.setUsuario(usuario);
-
 
         //validamos los productos
         if (pedido.getProductos() == null || pedido.getProductos().isEmpty()) {

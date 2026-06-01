@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.net.http.HttpResponse;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
@@ -16,14 +14,14 @@ public class ExceptionController {
 
     @ExceptionHandler(ProductoNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> productNotFoundError(ProductoNotFoundException ex, HttpServletRequest request) {
-        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),"Producto no encontrado", ex.getMessage(),request.getRequestURI());
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Producto no encontrado", ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(PedidoNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> orderNotFound(PedidoNotFoundException ex, HttpServletRequest request) {
-        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(),HttpStatus.NOT_FOUND.value(), "Pedido no encontrado", ex.getMessage(), request.getRequestURI());
-        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Pedido no encontrado", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(CrearPedidoException.class)
@@ -34,8 +32,8 @@ public class ExceptionController {
 
     @ExceptionHandler(ProductoDuplicadoException.class)
     public ResponseEntity<ErrorResponseDTO> productoDuplicadoError(ProductoDuplicadoException ex, HttpServletRequest request) {
-        ErrorResponseDTO error = new ErrorResponseDTO( LocalDateTime.now(), HttpStatus.CONFLICT.value(),"Conflicto de datos",ex.getMessage(),request.getRequestURI());
-        return  ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.CONFLICT.value(), "Conflicto de datos", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }
 
