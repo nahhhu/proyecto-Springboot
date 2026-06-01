@@ -31,7 +31,7 @@ Para correr el proyecto localmente, hay que configurar las siguientes variables 
 ### Documentación de la API
 Una vez que el proyecto esté corriendo, puedes acceder a la documentación interactiva en:  http://localhost:8080/swagger-ui/index.html
 
-###En proceso:
+### En proceso:
 * **Aseguramiento de calidad**: Desarrollo de test unitarios con Mockito en proceso para garantizar la estabilidad del sistema frente a futuros cambios o refactorizaciones.
   
 ### Proximos pasos:
