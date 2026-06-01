@@ -6,11 +6,10 @@ import com.techlab.spring.entity.Pedido;
 import com.techlab.spring.entity.Producto;
 import com.techlab.spring.entity.Usuario;
 import com.techlab.spring.exception.CrearPedidoException;
-import com.techlab.spring.exception.PedidoListException;
 import com.techlab.spring.exception.PedidoNotFoundException;
+import com.techlab.spring.exception.StockInsuficienteException;
 import com.techlab.spring.mapper.PedidoMapper;
 import com.techlab.spring.repository.PedidoRepository;
-import com.techlab.spring.repository.ProductoRepository;
 import com.techlab.spring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,17 +20,15 @@ import java.util.List;
 @Service
 public class PedidoService implements IPedidoService {
 
-    @Autowired
     private final PedidoRepository repo;
-    @Autowired
     public PedidoMapper pedidoMapper;
-    @Autowired
     private UsuarioRepository usuarioRepo;
-    @Autowired
-    private ProductoRepository productoRepo;
 
-    public PedidoService(PedidoRepository repo) {
+
+    public PedidoService(PedidoRepository repo, PedidoMapper pedidoMapper, UsuarioRepository usuarioRepo) {
         this.repo = repo;
+        this.pedidoMapper = pedidoMapper;
+        this.usuarioRepo = usuarioRepo;
     }
 
     @Override
@@ -51,10 +48,15 @@ public class PedidoService implements IPedidoService {
         //seteamos el usuario
         pedido.setUsuario(usuario);
 
-
         //validamos los productos
         if (pedido.getProductos() == null || pedido.getProductos().isEmpty()) {
-            throw new CrearPedidoException("No se puede crear un pedido sin productos");
+            throw new CrearPedidoException(" No se puede crear un pedido sin productos");
+        }
+
+        boolean sinStock = pedido.getProductos().stream().anyMatch(producto -> producto.getCantidadStock() <= 0);
+
+        if(sinStock){
+            throw  new StockInsuficienteException("Uno o mas productos del pedido no cuentan con stock");
         }
 
         //seteamos fecha, estado y precio total
@@ -72,11 +74,6 @@ public class PedidoService implements IPedidoService {
     @Override
     public List<PedidoResponseDTO> listarPedidos() {
         List<Pedido> pedidos = repo.findAll();
-
-        if (pedidos.isEmpty()) {
-            throw new PedidoListException("No hay pedidos para mostrar");
-        }
-
         return pedidoMapper.pedidoResponseDTOList(pedidos);
     }
 
