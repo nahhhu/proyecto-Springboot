@@ -15,10 +15,10 @@ Proyecto que aplica los conocimientos obtenidos en el bootcamp de *talento tech*
 * **Separación de Resposabilidades**: El controlador nunca habla directamente con la base de datos, siempre pasa por una capa de servicio y utiliza mappers para proteger las entidades.
 * **Inyeccion de Dependencias**: Uso de constructores para una mejor testeabilidad y desacoplamiento de componentes.
 
-### Caraterísticas Principales
+### Características Principales
 * **CRUD Completo**: Creación, lectura, actualización y eliminación de productos electrónicos.
-* **Validación de datos**: Implementaciono de validaciones para asegurar que los precios, stock y nombres sean correctos antes de persistir.
-* **Documentación Interactiva**: Podes probar todos los endpoints a través de la interfas de swagger.
+* **Validación de datos**: Implementación de validaciones para asegurar que los precios, stock y nombres sean correctos antes de persistir.
+* **Documentación Interactiva**: Podes probar todos los endpoints a través de la interfaz de swagger.
 * **Manejo de Excepciones**: Sistema centralizado para capturar errores y devolver respuestan claras a los clientes.
 
 ### Instalación y Configuración
@@ -31,11 +31,10 @@ Para correr el proyecto localmente, hay que configurar las siguientes variables 
 ### Documentación de la API
 Una vez que el proyecto esté corriendo, puedes acceder a la documentación interactiva en:  http://localhost:8080/swagger-ui/index.html
 
-### Sobre mí
-Soy Nahuel, técnico en informatica, desarrollador Backend y estudiante de licenciatura en sistemas. Me gusta crear productos que cubran problemas reales, como en este caso. Soy una persona proactiva y autodidacta; este proyecto es una prueba de eso, ya que decidí ir mas allá de los requerimientos básicos e implementar por mi cuenta el patron DTO y MapStruct para garantizar una arquitectura limpia y más profesional.
-
+###En proceso:
+* **Aseguramiento de calidad**: Desarrollo de test unitarios con Mockito en proceso para garantizar la estabilidad del sistema frente a futuros cambios o refactorizaciones.
+  
 ### Proximos pasos:
 Este proyecto es el punto de partida para mi transición hacia el desarrollo backend profesional. Planeo evolucionar esta API implementando los siguientes estándares de la industria:
-* Test Unitarios: Implementar pruebas unitarias y de integracion con JUnit y Mockito para asegurar que cada capa de la arquitectura funcione correctamente de forma aislada.
 * Seguridad (Spring Security + JWT): Planeo implementar un sistema de autenticación mediante tokens JWT, definiendo roles de usuario y protegiento endpoints criticos. 
-* Contenerizacion (Docker): Creacion de un entorno de despligeue reproducible mediante Docker, permitiendo levantar la base de datos y la alicacion con un solo comando.
+* Contenerizacion (Docker): Creacion de un entorno de despliegue reproducible mediante Docker, permitiendo levantar la base de datos y la aplicación con un solo comando.
