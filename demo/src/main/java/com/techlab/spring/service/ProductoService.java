@@ -24,7 +24,7 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public ProductoDTO obtenerPorId(int id) {
+    public ProductoDTO obtenerPorId(Integer id) {
         return repo.findById(id)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new ProductoNotFoundException("El producto con el id: " + id + " no existe"));
@@ -32,7 +32,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<ProductoDTO> obtenerPorNombre(String nombre) {
-        List<Producto> productos = repo.findByNombreIgnoreCase(nombre);
+        List<Producto> productos = repo.findByNombreContainingIgnoreCase(nombre);
 
         if (productos.isEmpty()) {
             throw new ProductoNotFoundException("No se han encontrado productos con el nombre:" + nombre);
@@ -41,10 +41,10 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public List<ProductoDTO> obtenerPorCategoria(String categoria) {
-        List<Producto> productos = repo.findByCategoria(categoria);
+    public List<ProductoDTO> obtenerPorCategoria(Integer categoriaId) {
+        List<Producto> productos = repo.findByCategoriaId(categoriaId);
         if (productos.isEmpty()) {
-            throw new ProductoNotFoundException("La categoria: " + categoria + " no existe");
+            throw new ProductoNotFoundException("La categoria: " + categoriaId + " no existe");
         }
         return mapper.toDtoList(productos);
     }
@@ -74,7 +74,7 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public ProductoDTO actualizar(int id, ProductoDTO datos) {
+    public ProductoDTO actualizar(Integer id, ProductoDTO datos) {
         Producto existe = repo.findById(id).orElseThrow(() -> new ProductoNotFoundException("No se puede actualizar. El producto con id " + id + " no existe."));
 
         mapper.updateEntityFromDto(datos, existe);
@@ -84,7 +84,7 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public Boolean eliminar(int id) {
+    public Boolean eliminar(Integer id) {
         if (!repo.existsById(id)) {
             throw new ProductoNotFoundException("No se puede eliminar. El producto con id:" + id + " no existe ");
         }

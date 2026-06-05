@@ -19,6 +19,6 @@ public record ProductoDTO(
         Integer stock,
 
         @NotBlank(message = "Es necesario que se asigne categoria")
-        String categoria
+        Integer categoriaId
 ) {
 }

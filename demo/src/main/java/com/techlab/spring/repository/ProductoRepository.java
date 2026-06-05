@@ -9,10 +9,12 @@ import java.util.List;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
-    List<Producto> findByNombreIgnoreCase(String nombre);
+    List<Producto> findByNombreContainingIgnoreCase(String nombre);
 
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria")
-    List<Producto> findByCategoria(String categoria);
+    List<Producto> buscarTodosPorCategoria();
+
+    List<Producto> findByCategoriaId(Integer categoriaId);
 
     boolean existsByNombreIgnoreCase(String nombre);
 }
