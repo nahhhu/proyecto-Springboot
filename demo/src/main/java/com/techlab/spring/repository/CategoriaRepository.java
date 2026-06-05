@@ -1,0 +1,12 @@
+package com.techlab.spring.repository;
+
+import com.techlab.spring.entity.Categoria;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
+    Optional<Categoria> findByNombreIgnoreCase(String nombre);
+
+    boolean existByNombreIgnoreCase(String nombre);
+}

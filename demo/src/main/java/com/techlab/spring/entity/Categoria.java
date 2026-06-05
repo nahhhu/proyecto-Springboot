@@ -3,6 +3,7 @@ package com.techlab.spring.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +21,7 @@ public class Categoria {
 
     @NotBlank(message = "El nombre de la categoria es obligatorio")
     private String nombre;
+
+    @NotNull(message = "Debe tener un valor booleano")
+    private boolean activa = true;
 }
