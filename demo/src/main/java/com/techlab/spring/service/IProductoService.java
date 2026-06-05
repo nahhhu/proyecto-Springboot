@@ -11,13 +11,13 @@ public interface IProductoService {
 
     List<ProductoDTO> listarProductos();
 
-    ProductoDTO obtenerPorId(int id);
+    ProductoDTO obtenerPorId(Integer id);
 
     List<ProductoDTO> obtenerPorNombre(String nombre);
 
-    List<ProductoDTO> obtenerPorCategoria(String categoria);
+    List<ProductoDTO> obtenerPorCategoria(Integer categoriaId);
 
-    ProductoDTO actualizar(int id, ProductoDTO datosDto);
+    ProductoDTO actualizar(Integer id, ProductoDTO datosDto);
 
-    Boolean eliminar(int id);
+    Boolean eliminar(Integer id);
 }
