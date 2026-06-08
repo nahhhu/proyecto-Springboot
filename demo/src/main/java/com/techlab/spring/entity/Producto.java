@@ -29,6 +29,8 @@ public class Producto {
     @PositiveOrZero(message = "El stock no puede ser negativo")
     private Integer cantidadStock;
 
+    private boolean activo = true;
+
    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;

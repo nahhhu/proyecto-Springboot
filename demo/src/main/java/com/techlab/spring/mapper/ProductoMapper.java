@@ -1,6 +1,7 @@
 package com.techlab.spring.mapper;
 
-import com.techlab.spring.dto.ProductoDTO;
+import com.techlab.spring.dto.ProductoRequestDTO;
+import com.techlab.spring.dto.ProductoResponseDTO;
 import com.techlab.spring.entity.Producto;
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
@@ -13,16 +14,16 @@ import java.util.List;
 
 public interface ProductoMapper {
 
-    List<ProductoDTO> toDtoList(List<Producto> productos);
+    List<ProductoResponseDTO> toDtoList(List<Producto> productos);
 
-    List<Producto> toEntityList(List<ProductoDTO> productoDTOS);
+    List<Producto> toEntityList(List<ProductoRequestDTO> productosRequestDTO);
 
     @Mapping(source = "cantidadStock", target = "stock")
-    ProductoDTO toDto(Producto producto);
+    ProductoResponseDTO toDto(Producto producto);
 
     @Mapping(source = "stock", target = "cantidadStock")
-    Producto toEntity(ProductoDTO productoDTO);
+    Producto toEntity(ProductoRequestDTO productoRequestDTO);
 
     @InheritConfiguration(name = "toEntity")
-    void updateEntityFromDto(ProductoDTO dto, @MappingTarget Producto entity);
+    void updateEntityFromDto(ProductoResponseDTO dto, @MappingTarget Producto entity);
 }

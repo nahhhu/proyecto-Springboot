@@ -1,7 +1,6 @@
 package com.techlab.spring.service;
 
 import com.techlab.spring.dto.CategoriaDTO;
-import com.techlab.spring.dto.ProductoDTO;
 import com.techlab.spring.entity.Categoria;
 import com.techlab.spring.exception.CategoriaDuplicadaException;
 import com.techlab.spring.exception.CategoriaNotFoundException;

@@ -10,6 +10,6 @@ public record PedidoResponseDTO(
         String estado,
         Double total,
         UsuarioDTO usuario,
-        List<ProductoDTO> productos
+        List<ProductoResponseDTO> productos
 ) {
 }
