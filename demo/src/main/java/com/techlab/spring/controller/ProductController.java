@@ -1,6 +1,7 @@
 package com.techlab.spring.controller;
 
 
+import com.techlab.spring.dto.ProductoRequestDTO;
 import com.techlab.spring.dto.ProductoResponseDTO;
 import com.techlab.spring.service.ProductoService;
 import jakarta.validation.Valid;
@@ -46,13 +47,13 @@ public class ProductController {
     }
 
     @PostMapping("/")//recibe un solo dato(un producto)
-    public ResponseEntity<ProductoResponseDTO> crearProducto(@RequestBody @Valid ProductoResponseDTO nuevo) {
+    public ResponseEntity<ProductoResponseDTO> crearProducto(@RequestBody @Valid ProductoRequestDTO nuevo) {
         ProductoResponseDTO creado = productoService.crear(nuevo);
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
 
     @PostMapping("/list")//recibe un conjunto de datos(lista de productos)
-    public ResponseEntity<List<ProductoResponseDTO>> crearProductos(@Valid @RequestBody List<ProductoResponseDTO> productos) {
+    public ResponseEntity<List<ProductoResponseDTO>> crearProductos(@Valid @RequestBody List<ProductoRequestDTO> productos) {
         List<ProductoResponseDTO> creado = productoService.crearProductos(productos);
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
@@ -64,8 +65,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable int id) {
-        productoService.eliminar(id);
+    public ResponseEntity<Void> desactivarProducto(@PathVariable int id) {
+        productoService.desactivar(id);
         return ResponseEntity.noContent().build();
     }
 }
