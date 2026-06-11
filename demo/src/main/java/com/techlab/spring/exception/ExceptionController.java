@@ -37,20 +37,20 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(StockInsuficienteException.class)
-    public ResponseEntity<ErrorResponseDTO> stockInsuficienteError( StockInsuficienteException ex, HttpServletRequest request){
-        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.CONFLICT.value(),"Stock insuficiente", ex.getMessage(),request.getRequestURI());
+    public ResponseEntity<ErrorResponseDTO> stockInsuficienteError(StockInsuficienteException ex, HttpServletRequest request) {
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.CONFLICT.value(), "Stock insuficiente", ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(CategoriaNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> categoryNotFoundError(CategoriaNotFoundException ex, HttpServletRequest request){
-        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),"Categoria no encontrada",ex.getMessage(),request.getRequestURI());
+    public ResponseEntity<ErrorResponseDTO> categoryNotFoundError(CategoriaNotFoundException ex, HttpServletRequest request) {
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Categoria no encontrada", ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(CategoriaDuplicadaException.class)
-    public ResponseEntity<ErrorResponseDTO> categoryNotFoundError(CategoriaDuplicadaException ex, HttpServletRequest request){
-        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),"Categoria no encontrada",ex.getMessage(),request.getRequestURI());
+    public ResponseEntity<ErrorResponseDTO> categoryNotFoundError(CategoriaDuplicadaException ex, HttpServletRequest request) {
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Categoria no encontrada", ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }

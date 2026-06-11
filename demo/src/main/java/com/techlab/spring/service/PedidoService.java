@@ -11,7 +11,6 @@ import com.techlab.spring.exception.StockInsuficienteException;
 import com.techlab.spring.mapper.PedidoMapper;
 import com.techlab.spring.repository.PedidoRepository;
 import com.techlab.spring.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -55,8 +54,8 @@ public class PedidoService implements IPedidoService {
 
         boolean sinStock = pedido.getProductos().stream().anyMatch(producto -> producto.getCantidadStock() <= 0);
 
-        if(sinStock){
-            throw  new StockInsuficienteException("Uno o mas productos del pedido no cuentan con stock");
+        if (sinStock) {
+            throw new StockInsuficienteException("Uno o mas productos del pedido no cuentan con stock");
         }
 
         //seteamos fecha, estado y precio total

@@ -1,6 +1,9 @@
 package com.techlab.spring.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record ProductoRequestDTO(
         @NotBlank(message = "El producto necesita un nombre")

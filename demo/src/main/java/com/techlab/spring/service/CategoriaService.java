@@ -1,6 +1,7 @@
 package com.techlab.spring.service;
 
-import com.techlab.spring.dto.CategoriaDTO;
+import com.techlab.spring.dto.CategoriaRequestDTO;
+import com.techlab.spring.dto.CategoriaResponseDTO;
 import com.techlab.spring.entity.Categoria;
 import com.techlab.spring.exception.CategoriaDuplicadaException;
 import com.techlab.spring.exception.CategoriaNotFoundException;
@@ -19,61 +20,65 @@ public class CategoriaService implements ICategoriaService {
     private final CategoriaMapper mapper;
 
     @Override
-    public List<CategoriaDTO> listarCategorias(){
+    public List<CategoriaResponseDTO> listarCategorias() {
         return mapper.toDtoList(repo.findAll());
     }
 
     @Override
-    public CategoriaDTO obtenerPorId(Integer id){
+    public CategoriaResponseDTO obtenerPorId(Integer id) {
         return repo.findById(id)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new CategoriaNotFoundException("La categoria con id: " + id + " no existe"));
     }
+
     @Override
-    public CategoriaDTO obtenerPorNombre(String nombre){
+    public CategoriaResponseDTO obtenerPorNombre(String nombre) {
         Categoria categoria = repo.findByNombreIgnoreCase(nombre)
-                .orElseThrow(() -> new CategoriaNotFoundException("La categoria: " + nombre+ " no existe"));
+                .orElseThrow(() -> new CategoriaNotFoundException("La categoria: " + nombre + " no existe"));
         return mapper.toDto(categoria);
     }
 
     @Override
-    public CategoriaDTO crear(CategoriaDTO categoriaDTO){
-        if(repo.existByNombreIgnoreCase(categoriaDTO.nombre())){
-            throw new CategoriaDuplicadaException("La categoria: " + categoriaDTO.nombre() + " ya existe");
+    public CategoriaResponseDTO crear(CategoriaRequestDTO categoriaRequestDTO) {
+        if (repo.existsByNombreIgnoreCase(categoriaRequestDTO.nombre())) {
+            throw new CategoriaDuplicadaException("La categoria: " + categoriaRequestDTO.nombre() + " ya existe");
         }
-        Categoria categoria = mapper.toEntity(categoriaDTO);
+
+        Categoria categoria = mapper.toEntity(categoriaRequestDTO);
+        categoria.setActiva(true);
         Categoria guardada = repo.save(categoria);
         return mapper.toDto(guardada);
     }
+
     @Override
-    public List<CategoriaDTO> crearCategorias(List<CategoriaDTO> categoriaDTOS){
-        for(CategoriaDTO c : categoriaDTOS){
-            if(repo.existByNombreIgnoreCase(c.nombre())){
+    public List<CategoriaResponseDTO> crearCategorias(List<CategoriaRequestDTO> categoriaRequestDTOS) {
+        for (CategoriaRequestDTO c : categoriaRequestDTOS) {
+            if (repo.existsByNombreIgnoreCase(c.nombre())) {
                 throw new CategoriaDuplicadaException("El producto: " + c.nombre() + " ya existe");
             }
         }
-        List<Categoria> entidades = mapper.toEntityList(categoriaDTOS);
+        List<Categoria> entidades = mapper.toEntityList(categoriaRequestDTOS);
         List<Categoria> guardados = repo.saveAll(entidades);
         return mapper.toDtoList(guardados);
     }
 
-     @Override
-    public CategoriaDTO actualizar(Integer id, CategoriaDTO categoriaDTO){
+    @Override
+    public CategoriaResponseDTO actualizar(Integer id, CategoriaRequestDTO categoriaRequestDTO) {
         Categoria existe = repo.findById(id).orElseThrow(() -> new CategoriaNotFoundException("No se puede actualizar. La categoria con id: " + id + " no existe."));
 
-        mapper.updateEntityFromDto(categoriaDTO, existe);
+        mapper.updateEntityFromDto(categoriaRequestDTO, existe);
 
-        Categoria guardada =repo.save(existe);
+        Categoria guardada = repo.save(existe);
         return mapper.toDto(guardada);
-     }
+    }
 
-     @Override
-    public boolean desactivar(Integer id){
+    @Override
+    public boolean desactivar(Integer id) {
         Categoria categoria = repo.findById(id)
-                .orElseThrow(() ->new CategoriaNotFoundException("La categoría con id:" + id + " no existe"));
-       categoria.setActiva(false);
-       repo.save(categoria);
+                .orElseThrow(() -> new CategoriaNotFoundException("La categoría con id:" + id + " no existe"));
+        categoria.setActiva(false);
+        repo.save(categoria);
 
-       return true;
-     }
+        return true;
+    }
 }

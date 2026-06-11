@@ -18,8 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PedidoServiceTest {
@@ -42,7 +44,7 @@ class PedidoServiceTest {
         PedidoRequestDTO requestDTO = new PedidoRequestDTO(
                 "Ezequiel",
                 "ezequiel@gmail.com",
-                List.of(1,2,3));
+                List.of(1, 2, 3));
 
         Usuario usuarioFalso = new Usuario();
         usuarioFalso.setId(1);
@@ -63,7 +65,7 @@ class PedidoServiceTest {
         p3.setPrecio(100.00);
         p3.setCantidadStock(2);
 
-        pedidoFalso.setProductos(List.of(p1,p2,p3));
+        pedidoFalso.setProductos(List.of(p1, p2, p3));
 
         when(usuarioRepo.findByEmail("ezequiel@gmail.com")).thenReturn(Optional.of(usuarioFalso));
         when(pedidoMapper.toEntity(requestDTO)).thenReturn(pedidoFalso);
@@ -78,11 +80,11 @@ class PedidoServiceTest {
 
     @Test
     @DisplayName("Sad path: No crea el pedido cuando el stock del producto es 0, deberia saltar la excepcion ")
-    void crearPedido_FallaCuandoNoHayStock(){
+    void crearPedido_FallaCuandoNoHayStock() {
         PedidoRequestDTO requestDTO = new PedidoRequestDTO(
                 "Ezequiel",
                 "ezequiel@gmail.com",
-                List.of(1,2)
+                List.of(1, 2)
         );
         Usuario usuarioFalso = new Usuario();
         usuarioFalso.setId(1);
@@ -98,13 +100,13 @@ class PedidoServiceTest {
         Producto p2 = new Producto();
         p2.setPrecio(100.00);
 
-        pedidoFalso.setProductos(List.of(p1,p2));
+        pedidoFalso.setProductos(List.of(p1, p2));
 
         when(usuarioRepo.findByEmail("ezequiel@gmail.com")).thenReturn(Optional.of(usuarioFalso));
         when(pedidoMapper.toEntity(requestDTO)).thenReturn(pedidoFalso);
 
         assertThrows(StockInsuficienteException.class, () -> {
-           pedidoService.crearPedido(requestDTO);
+            pedidoService.crearPedido(requestDTO);
         });
 
         verify(usuarioRepo).findByEmail("ezequiel@gmail.com");

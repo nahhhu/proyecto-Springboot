@@ -20,7 +20,7 @@ public interface IProductoService {
 
     ProductoResponseDTO actualizar(Integer id, ProductoResponseDTO datosDto);
 
-    boolean desactivar (Integer id);
+    boolean desactivar(Integer id);
 
-    boolean activar (Integer id);
+    boolean activar(Integer id);
 }

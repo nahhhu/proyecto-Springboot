@@ -95,9 +95,9 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public boolean activar(Integer id){
+    public boolean activar(Integer id) {
         Producto producto = repo.findById(id)
-                .orElseThrow(()-> new ProductoNotFoundException("El producto con id: " + id + " no existe."));
+                .orElseThrow(() -> new ProductoNotFoundException("El producto con id: " + id + " no existe."));
         producto.setActivo(true);
         repo.save(producto);
         return true;

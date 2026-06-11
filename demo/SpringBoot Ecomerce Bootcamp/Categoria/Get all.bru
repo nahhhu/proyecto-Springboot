@@ -1,15 +1,16 @@
 meta {
-  name: Get order by id
+  name: Get all
   type: http
-  seq: 9
+  seq: 1
 }
 
 get {
-  url: 
+  url: http://localhost:8080/categoria/
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

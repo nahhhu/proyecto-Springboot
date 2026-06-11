@@ -1,20 +1,22 @@
 package com.techlab.spring.service;
 
-import com.techlab.spring.dto.CategoriaDTO;
+import com.techlab.spring.dto.CategoriaRequestDTO;
+import com.techlab.spring.dto.CategoriaResponseDTO;
+
 import java.util.List;
 
 public interface ICategoriaService {
-    CategoriaDTO crear(CategoriaDTO categoriaDTO);
+    CategoriaResponseDTO crear(CategoriaRequestDTO categoriaRequestDTO);
 
-    List<CategoriaDTO> crearCategorias(List<CategoriaDTO> categorias);
+    List<CategoriaResponseDTO> crearCategorias(List<CategoriaRequestDTO> categorias);
 
-    List<CategoriaDTO> listarCategorias();
+    List<CategoriaResponseDTO> listarCategorias();
 
-    CategoriaDTO obtenerPorId(Integer id);
+    CategoriaResponseDTO obtenerPorId(Integer id);
 
-    CategoriaDTO obtenerPorNombre(String nombre);
+    CategoriaResponseDTO obtenerPorNombre(String nombre);
 
-    CategoriaDTO actualizar(Integer id, CategoriaDTO categoriaDTO);
+    CategoriaResponseDTO actualizar(Integer id, CategoriaRequestDTO categoriaRequestDTO);
 
-    boolean desactivar( Integer id);
+    boolean desactivar(Integer id);
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class  TechLabSpringApplication {
+public class TechLabSpringApplication {
 
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.load();
@@ -16,9 +16,9 @@ public class  TechLabSpringApplication {
         } else {
             System.out.println("La clave de .env no está.");
         }
-        if(cloudinaryUrl != null){
+        if (cloudinaryUrl != null) {
             System.setProperty("CLOUDINARY_URL", cloudinaryUrl);
-        }else{
+        } else {
             System.out.println("La URL de cloudinary no está.");
         }
 

@@ -1,17 +1,20 @@
 package com.techlab.spring.config;
+
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// TODO anotar problema con $, activa spring property placeholder  para que busque la variable
+
 @Configuration
 public class CloudinaryConfig {
 
-    @Value("{CLOUDINARY_URL}")
+    @Value("${CLOUDINARY_URL}")
     private String cloudinaryUrl;
 
     @Bean
-    public Cloudinary cloudinary(){
+    public Cloudinary cloudinary() {
         return new Cloudinary(cloudinaryUrl);
     }
 }
