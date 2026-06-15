@@ -30,6 +30,12 @@ public class ProductController {
         return ResponseEntity.ok(productos);
     }
 
+    @GetMapping("/inactivos")
+    public ResponseEntity<List<ProductoResponseDTO>> listarProductosInactivos(){
+        List<ProductoResponseDTO> productos = productoService.listarProductosInactivos();
+        return ResponseEntity.ok(productos);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductoResponseDTO> obtenerProducto(@PathVariable Integer id) {
         ProductoResponseDTO productoEncontrado = productoService.obtenerPorId(id);

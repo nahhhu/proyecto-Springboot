@@ -12,6 +12,8 @@ public interface IProductoService {
 
     List<ProductoResponseDTO> listarProductos();
 
+    List<ProductoResponseDTO> listarProductosInactivos();
+
     ProductoResponseDTO obtenerPorId(Integer id);
 
     List<ProductoResponseDTO> obtenerPorNombre(String nombre);

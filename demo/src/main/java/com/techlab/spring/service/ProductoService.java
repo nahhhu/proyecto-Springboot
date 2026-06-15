@@ -27,8 +27,11 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<ProductoResponseDTO> listarProductos() {
-        return mapper.toDtoList(repo.findAll());
+        return mapper.toDtoList(repo.findAllActivos());
     }
+
+    @Override
+    public List<ProductoResponseDTO> listarProductosInactivos(){return mapper.toDtoList(repo.findAllInactivos());}
 
     @Override
     public ProductoResponseDTO obtenerPorId(Integer id) {
