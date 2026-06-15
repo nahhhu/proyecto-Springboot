@@ -25,9 +25,9 @@ public class ImagenService implements IImagenService {
         this.productoRepository = productoRepository;
     }
 
-    //TODO funciona, solucionar recursion infinita, no para de devoler datos en el json
+    //funciona
     @Override
-    public Imagen subirImagenACloudinary(MultipartFile archivo, Integer productoId) throws IOException {
+    public Imagen subirImagenACloudinary(MultipartFile archivo, Integer productoId, String descripcion) throws IOException {
         Producto producto = productoRepository.findById(productoId).orElseThrow(() -> new ProductoNotFoundException("El procucto no existe"));
  
         Map cloudinaryResponse = cloudinary.uploader().upload(archivo.getBytes(), ObjectUtils.emptyMap());
@@ -38,6 +38,7 @@ public class ImagenService implements IImagenService {
         Imagen nuevaImagen = new Imagen();
         nuevaImagen.setUrl(urlImagen);
         nuevaImagen.setPublicId(publicId);
+        nuevaImagen.setDescripcion(descripcion);
 
         nuevaImagen.setProducto(producto);
         return repo.save(nuevaImagen);

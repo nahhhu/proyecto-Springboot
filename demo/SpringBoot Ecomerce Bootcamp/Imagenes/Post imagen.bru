@@ -10,6 +10,12 @@ post {
   auth: inherit
 }
 
+body:multipart-form {
+  archivo: @file(C:\Users\nahuc\Downloads\Kumara-blanco.png)
+  productoId: 2
+  descripcion: Teclado kumara blanco
+}
+
 body:file {
   file: @file(C:\Users\nahuc\Downloads\KUMARA.png) @contentType(image/png)
 }

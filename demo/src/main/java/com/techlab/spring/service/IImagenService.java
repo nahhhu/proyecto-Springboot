@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface IImagenService {
-    Imagen subirImagenACloudinary(MultipartFile archivo, Integer productoId) throws IOException;
+    Imagen subirImagenACloudinary(MultipartFile archivo, Integer productoId,String descripcion) throws IOException;
 }
