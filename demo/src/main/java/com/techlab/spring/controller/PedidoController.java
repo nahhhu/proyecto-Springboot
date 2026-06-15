@@ -32,7 +32,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PedidoResponseDTO> buscarPorId(@PathVariable int id) {
+    public ResponseEntity<PedidoResponseDTO> buscarPorId(@PathVariable Integer id) {
         PedidoResponseDTO pedidoEncontrado = service.buscarPedido(id);
         return ResponseEntity.ok(pedidoEncontrado);
     }

@@ -81,4 +81,12 @@ public class CategoriaService implements ICategoriaService {
 
         return true;
     }
+
+    public boolean activar(Integer id){
+        Categoria categoria = repo.findById(id)
+                .orElseThrow(() -> new CategoriaNotFoundException("La categoria con id: " + id + " no existe"));
+        categoria.setActiva(true);
+        repo.save(categoria);
+        return true;
+    }
 }

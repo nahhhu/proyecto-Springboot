@@ -4,7 +4,7 @@ public record ProductoResponseDTO(
         Integer id,
         String nombre,
         Double precio,
-        Integer stock,
+        Integer cantidadStock,
         boolean activo,
         Integer categoriaId
 ) {

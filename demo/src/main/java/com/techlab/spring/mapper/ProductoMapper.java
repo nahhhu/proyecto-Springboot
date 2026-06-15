@@ -18,12 +18,13 @@ public interface ProductoMapper {
 
     List<Producto> toEntityList(List<ProductoRequestDTO> productosRequestDTO);
 
-    @Mapping(source = "cantidadStock", target = "stock")
+    @Mapping(source = "categoria.id", target = "categoriaId")
     ProductoResponseDTO toDto(Producto producto);
 
-    @Mapping(source = "stock", target = "cantidadStock")
+    @Mapping(target = "categoria", ignore = true)
     Producto toEntity(ProductoRequestDTO productoRequestDTO);
 
     @InheritConfiguration(name = "toEntity")
+    @Mapping(target = "id", ignore = true)
     void updateEntityFromDto(ProductoResponseDTO dto, @MappingTarget Producto entity);
 }

@@ -1,11 +1,15 @@
 package com.techlab.spring.service;
 
+import com.techlab.spring.dto.CategoriaResponseDTO;
 import com.techlab.spring.dto.ProductoRequestDTO;
 import com.techlab.spring.dto.ProductoResponseDTO;
+import com.techlab.spring.entity.Categoria;
 import com.techlab.spring.entity.Producto;
+import com.techlab.spring.exception.CategoriaNotFoundException;
 import com.techlab.spring.exception.ProductoDuplicadoException;
 import com.techlab.spring.exception.ProductoNotFoundException;
 import com.techlab.spring.mapper.ProductoMapper;
+import com.techlab.spring.repository.CategoriaRepository;
 import com.techlab.spring.repository.ProductoRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +23,7 @@ public class ProductoService implements IProductoService {
 
     private final ProductoRepository repo;
     private final ProductoMapper mapper;
+    private final CategoriaRepository categoriaRepository;
 
     @Override
     public List<ProductoResponseDTO> listarProductos() {
@@ -57,7 +62,11 @@ public class ProductoService implements IProductoService {
             throw new ProductoDuplicadoException("El producto " + p.nombre() + " ya existe");
         }
 
+        Categoria categoriaExistente = categoriaRepository.findById(p.categoriaId()).orElseThrow(() -> new CategoriaNotFoundException("La categoria con id: " + p.categoriaId() + " no existe"));
+
         Producto entidad = mapper.toEntity(p);
+        entidad.setCategoria(categoriaExistente);
+        entidad.setActivo(true);
         Producto guardado = repo.save(entidad);
         return mapper.toDto(guardado);
     }

@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoResponseDTO> obtenerProducto(@PathVariable int id) {
+    public ResponseEntity<ProductoResponseDTO> obtenerProducto(@PathVariable Integer id) {
         ProductoResponseDTO productoEncontrado = productoService.obtenerPorId(id);
         return ResponseEntity.ok(productoEncontrado);
     }
@@ -42,7 +42,7 @@ public class ProductController {
         return ResponseEntity.ok(productosPorNombre);
     }
 
-    @GetMapping("/category/{categoria}")
+    @GetMapping("/category/{categoriaId}")
     public ResponseEntity<List<ProductoResponseDTO>> obtenerPorCategoria(@PathVariable Integer categoriaId) {
         List<ProductoResponseDTO> productosPorCategoria = productoService.obtenerPorCategoria(categoriaId);
         return ResponseEntity.ok(productosPorCategoria);
@@ -61,14 +61,20 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable int id, @Valid @RequestBody ProductoResponseDTO datos) {
+    public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Integer id, @Valid @RequestBody ProductoResponseDTO datos) {
         ProductoResponseDTO productoActualizado = productoService.actualizar(id, datos);
         return ResponseEntity.ok(productoActualizado);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> desactivarProducto(@PathVariable int id) {
+    public ResponseEntity<Void> desactivarProducto(@PathVariable Integer id) {
         productoService.desactivar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<Void> activarProducto(@PathVariable Integer id){
+        productoService.activar(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -29,7 +29,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDTO> obtenerCategoria(@PathVariable int id) {
+    public ResponseEntity<CategoriaResponseDTO> obtenerCategoria(@PathVariable Integer id) {
         CategoriaResponseDTO categoriaResponseDTOS = categoriaService.obtenerPorId(id);
         return ResponseEntity.ok(categoriaResponseDTOS);
     }
@@ -53,16 +53,20 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDTO> actualizarCategoria(@PathVariable int id, @Valid @RequestBody CategoriaRequestDTO datos) {
+    public ResponseEntity<CategoriaResponseDTO> actualizarCategoria(@PathVariable Integer id, @Valid @RequestBody CategoriaRequestDTO datos) {
         CategoriaResponseDTO categoriaResponseDTO = categoriaService.actualizar(id, datos);
         return ResponseEntity.ok(categoriaResponseDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> desactivarCategoria(@PathVariable int id) {
+    public ResponseEntity<Void> desactivarCategoria(@PathVariable Integer id) {
         categoriaService.desactivar(id);
         return ResponseEntity.noContent().build();
     }
 
-    //Todo crear metodo para activar categoria
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<Void> activarCategoria(@PathVariable Integer id){
+        categoriaService.activar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
