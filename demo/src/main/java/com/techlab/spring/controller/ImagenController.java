@@ -35,4 +35,11 @@ public class ImagenController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error inesperado: " + e.getMessage());
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> borrar(@PathVariable Integer id){
+        imagenService.borrarImagen(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

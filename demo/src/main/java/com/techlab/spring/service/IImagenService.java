@@ -7,4 +7,6 @@ import java.io.IOException;
 
 public interface IImagenService {
     Imagen subirImagenACloudinary(MultipartFile archivo, Integer productoId,String descripcion) throws IOException;
+
+    void borrarImagen(Integer id);
 }
