@@ -28,6 +28,12 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaResponseDTOS);
     }
 
+    @GetMapping("/inactivas")
+    public ResponseEntity<List<CategoriaResponseDTO>> listarInactivas(){
+        List<CategoriaResponseDTO> categoriaResponseDTOS = categoriaService.listarInactivas();
+        return ResponseEntity.ok(categoriaResponseDTOS);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaResponseDTO> obtenerCategoria(@PathVariable Integer id) {
         CategoriaResponseDTO categoriaResponseDTOS = categoriaService.obtenerPorId(id);

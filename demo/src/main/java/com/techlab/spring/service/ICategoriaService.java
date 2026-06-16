@@ -12,6 +12,8 @@ public interface ICategoriaService {
 
     List<CategoriaResponseDTO> listarCategorias();
 
+    List<CategoriaResponseDTO> listarInactivas();
+
     CategoriaResponseDTO obtenerPorId(Integer id);
 
     CategoriaResponseDTO obtenerPorNombre(String nombre);
@@ -19,4 +21,6 @@ public interface ICategoriaService {
     CategoriaResponseDTO actualizar(Integer id, CategoriaRequestDTO categoriaRequestDTO);
 
     boolean desactivar(Integer id);
+
+    boolean activar(Integer id);
 }

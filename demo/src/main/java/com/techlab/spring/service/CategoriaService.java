@@ -21,7 +21,11 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public List<CategoriaResponseDTO> listarCategorias() {
-        return mapper.toDtoList(repo.findAll());
+        return mapper.toDtoList(repo.findByActivaTrue());
+    }
+
+    public List<CategoriaResponseDTO> listarInactivas(){
+        return mapper.toDtoList(repo.findByActivaFalse());
     }
 
     @Override
@@ -82,6 +86,7 @@ public class CategoriaService implements ICategoriaService {
         return true;
     }
 
+    @Override
     public boolean activar(Integer id){
         Categoria categoria = repo.findById(id)
                 .orElseThrow(() -> new CategoriaNotFoundException("La categoria con id: " + id + " no existe"));
