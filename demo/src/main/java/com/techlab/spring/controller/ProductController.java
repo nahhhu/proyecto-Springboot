@@ -11,11 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 //TODO mejorar ruteos
 
 @RestController
-@RequestMapping("/producto")
+@RequestMapping("/api/v1/productos")
 public class ProductController {
     private final ProductoService productoService;
 
@@ -42,13 +43,13 @@ public class ProductController {
         return ResponseEntity.ok(productoEncontrado);
     }
 
-    @GetMapping("/name/{nombre}")
-    public ResponseEntity<List<ProductoResponseDTO>> obtenerPorNombre(@PathVariable String nombre) {
+    @GetMapping(params = "nombre")
+    public ResponseEntity<List<ProductoResponseDTO>> obtenerPorNombre(@RequestParam String nombre) {
         List<ProductoResponseDTO> productosPorNombre = productoService.obtenerPorNombre(nombre);
         return ResponseEntity.ok(productosPorNombre);
     }
 
-    @GetMapping("/category/{categoriaId}")
+    @GetMapping("/categorias/{categoriaId}/productos")
     public ResponseEntity<List<ProductoResponseDTO>> obtenerPorCategoria(@PathVariable Integer categoriaId) {
         List<ProductoResponseDTO> productosPorCategoria = productoService.obtenerPorCategoria(categoriaId);
         return ResponseEntity.ok(productosPorCategoria);
@@ -66,21 +67,23 @@ public class ProductController {
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Integer id, @Valid @RequestBody ProductoResponseDTO datos) {
         ProductoResponseDTO productoActualizado = productoService.actualizar(id, datos);
         return ResponseEntity.ok(productoActualizado);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> desactivarProducto(@PathVariable Integer id) {
         productoService.desactivar(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/activar")
-    public ResponseEntity<Void> activarProducto(@PathVariable Integer id){
-        productoService.activar(id);
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> activarProducto(@PathVariable Integer id, @RequestBody Map<String, Boolean> estado){
+        if(Boolean.TRUE.equals(estado.get("activo"))){
+            productoService.activar(id);
+        }
         return ResponseEntity.noContent().build();
     }
 }

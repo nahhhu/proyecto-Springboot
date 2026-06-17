@@ -10,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/api/v1/categorias")
 public class CategoriaController {
     //TODO terminar de hacer el controlador de categoria
     private final CategoriaService categoriaService;
@@ -40,7 +41,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaResponseDTOS);
     }
 
-    @GetMapping
+    @GetMapping(params = "nombre")
     public ResponseEntity<CategoriaResponseDTO> obtenerPorNombre(@RequestParam String nombre) {
         CategoriaResponseDTO categoriaResponseDTO = categoriaService.obtenerPorNombre(nombre);
         return ResponseEntity.ok(categoriaResponseDTO);
@@ -70,9 +71,11 @@ public class CategoriaController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/activar")
-    public ResponseEntity<Void> activarCategoria(@PathVariable Integer id){
-        categoriaService.activar(id);
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> activarCategoria(@PathVariable Integer id, @RequestBody Map<String,Boolean> estado){
+        if(Boolean.TRUE.equals(estado.get("activo"))){
+            categoriaService.activar(id);
+        }
         return ResponseEntity.noContent().build();
     }
 }

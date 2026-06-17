@@ -16,14 +16,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/imagenes")
+@RequestMapping("/api/v1/imagenes")
 @RequiredArgsConstructor
 public class ImagenController {
 
     private final ImagenService imagenService;
     private final ImagenMapper mapper;
 
-    @PostMapping("/subir")
+    @PostMapping("/")
     public ResponseEntity<ImagenResponseDTO> subirFoto(@RequestParam("archivo") MultipartFile archivo, @RequestParam("productoId") Integer productoId, @RequestParam(value = "descripcion", required = false) String descripcion) {
         try {
             Imagen imagenGuardada = imagenService.subirImagenACloudinary(archivo, productoId,descripcion);
