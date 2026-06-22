@@ -49,12 +49,6 @@ public class ProductController {
         return ResponseEntity.ok(productosPorNombre);
     }
 
-    @GetMapping("/categorias/{categoriaId}/productos")
-    public ResponseEntity<List<ProductoResponseDTO>> obtenerPorCategoria(@PathVariable Integer categoriaId) {
-        List<ProductoResponseDTO> productosPorCategoria = productoService.obtenerPorCategoria(categoriaId);
-        return ResponseEntity.ok(productosPorCategoria);
-    }
-
     @PostMapping("/")//recibe un solo dato(un producto)
     public ResponseEntity<ProductoResponseDTO> crearProducto(@RequestBody @Valid ProductoRequestDTO nuevo) {
         ProductoResponseDTO creado = productoService.crear(nuevo);

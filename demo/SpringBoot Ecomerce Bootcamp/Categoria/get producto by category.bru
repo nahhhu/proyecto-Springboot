@@ -1,11 +1,11 @@
 meta {
-  name: get by category
+  name: get producto by category
   type: http
   seq: 5
 }
 
 get {
-  url: http://localhost:8080/producto/category/3
+  url: {{URL_BASE}}/api/v1/categorias/3/productos
   body: none
   auth: inherit
 }

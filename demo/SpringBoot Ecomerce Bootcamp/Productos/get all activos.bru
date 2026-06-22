@@ -5,12 +5,60 @@ meta {
 }
 
 get {
-  url: http://localhost:8080/producto/
+  url: {{URL_BASE}}/api/v1/productos/
   body: none
   auth: none
+}
+
+assert {
+  res.status: eq 200
 }
 
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Obtener productos activos
+  Este endpoint permite obtener un listado de productos activos (`activo: true`).
+  
+  ## Respuesta esperada (200 OK)
+  
+  El sistema devuelve una lista de productos en formato JSON ordenados por su `id`.
+  **Estructura de los datos**:
+  * `id`:(int) Identificador único del producto. 
+  * `nombre`: (string) Nombre del producto.
+  * `precio`: (double) Precio actual.
+  * `cantidadStock`: (int) Unidades disponibles.
+  * `activo`: (boolean) Estado del producto.
+  * `categoriaId`: (int) ID de la categoría a la que pertenece.
+  * `imagenes`: (array) Lista de imagenes asociadas al producto.
+    
+  **Ejemplo de respuesta:**
+  ```json
+  [
+    {
+      "id": 2,
+      "nombre": "Teclado Mecánico Redragon Kumara",
+      "precio": 80000.0,
+      "cantidadStock": 10,
+      "activo": true,
+      "categoriaId": 3,
+      "imagenes": [
+        {
+          "id": 2,
+          "url": "http://res.cloudinary.com/dcyrp0moh/image/upload/v1781494415/uycymphxtdzhvhvlbc1y.png",
+          "descripcion": null,
+          "productoId": 2
+        },
+        {
+          "id": 5,
+          "url": "http://res.cloudinary.com/dcyrp0moh/image/upload/v1781575755/flzyerkhouulejklgnwv.png",
+          "descripcion": "Teclado Redragon Kumara Blanco",
+          "productoId": 2
+        }
+      ]
+    }
+   
 }

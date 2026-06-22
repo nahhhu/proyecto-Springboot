@@ -1,0 +1,14 @@
+docs {
+  # 🛒 TechLab E-commerce API
+  Esta coleccion contiene los endpoints para consumir la API de Techlab. Sigue estandares RESTful y responde en formato JSON.
+  
+  ## Variables de Entorno
+  Para ejecutar estas peticiones sin modificar las URLs manualmente hay que tener creado y seleccionado un *Environment* en Bruno (por ejemplo, `Local`).
+  
+  Variables requeridas: 
+  * `URL_BASE`: Define el host yel puerto del servidor.
+    * Para entornos de desarrollo:`http://localhost:8080`
+    
+  Todas las peticiones utilizan el prefijo de versionado `/api/v1/` concatenado a esta variable.
+  Ejemplo: `{{URL_BASE}}/api/v1/productos`
+}

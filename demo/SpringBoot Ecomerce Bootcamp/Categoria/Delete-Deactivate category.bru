@@ -1,11 +1,11 @@
 meta {
   name: Delete/Deactivate category
   type: http
-  seq: 7
+  seq: 8
 }
 
 delete {
-  url: http://localhost:8080/categoria/3
+  url: {{URL_BASE}}/api/v1/categorias/3
   body: none
   auth: inherit
 }

@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:8080/producto/list
+  url: {{URL_BASE}}/api/v1/productos/list
   body: json
   auth: inherit
 }
@@ -15,17 +15,54 @@ body:json {
       "nombre": "Teclado Mecánico Logitech",
       "precio": 120000,
       "cantidadStock": 7,
-      "categoria": "Periférico"
+      "categoriaId": ""
   },
   {
       "nombre": "Mouse Logitech G305",
       "precio": 57000,
       "cantidadStock": 2,
-      "categoria": "Periférico"
+      "categoriaId": "Periférico"
     }]
 }
 
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Crear múltiples productos (Batch)
+  
+  Este endpoint permite registrar una lista completa de nuevos productos en una sola petición. Es ideal para cargas iniciales de datos o migraciones.
+  
+  ### 📝 Body (JSON)
+  La petición debe enviar un **arreglo (array)** de objetos con los datos de los productos. 
+  **Importante:** * No se debe incluir el campo `id` ni `activo` (el sistema los asigna automáticamente).
+  * El vínculo con la categoría se hace estrictamente mediante su identificador numérico (`categoriaId`), no por su nombre.
+  
+  **Ejemplo de Request:**
+  ```json
+  [
+    {
+      "nombre": "Teclado Mecánico Logitech",
+      "descripcion": "Teclado mecanico negro con switches red",
+      "precio": 120000,
+      "cantidadStock": 7,
+      "categoriaId": 2
+    },
+    {
+      "nombre": "Mouse Logitech G305",
+      "descripcion": "Mouse gamer color blanco", 
+      "precio": 57000,
+      "cantidadStock": 2,
+      "categoriaId": 2
+    }
+  ]
+  ```
+  
+  ## Respuesta Esperada
+  
+  * **201 Created**: Todos los productos fueron guardados exitosamente. Retorna un arreglo con los DTOs de los productos creados, incluyendo ahora sus id autogenerados y su estado activo: true.
+  
+  * **400 Bad Request**: Ocurre si la validación de algún producto falla (ej. tipos de datos incorrectos, enviar un texto en lugar de un categoriaId) o si la categoría enviada no existe en la base de datos. En este caso, la transacción se revierte y no se guarda ninguno.
 }

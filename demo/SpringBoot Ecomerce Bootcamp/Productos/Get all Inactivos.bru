@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: http://localhost:8080/producto/inactivos
+  url: {{URL_BASE}}/api/v1/productos/inactivos
   body: none
   auth: inherit
 }
@@ -13,4 +13,43 @@ get {
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Obtener productos inactivos
+  
+  Este endpoint permite obtener un listado de todos los productos que se encuentran inactivos o deshabilitados (`activo: false`) en la base de datos. Es ideal para ser consumido desde un panel de administración.
+  
+  ## Respuesta Esperada (200 OK)
+  
+  El sistema devuelve un **arreglo (array)** de objetos en formato JSON. 
+  
+  **Estructura de los datos:**
+  * `id`: (int) Identificador único del producto.
+  * `nombre`: (string) Nombre del producto.
+  * `precio`: (double) Precio actual.
+  * `cantidadStock`: (int) Unidades disponibles.
+  * `activo`: (boolean) Estado del producto (en este caso, siempre será `false`).
+  * `categoriaId`: (int) ID de la categoría a la que pertenece.
+  * `imagenes`: (array) Lista de imágenes asociadas al producto.
+  
+  **Ejemplo de Respuesta:**
+  ```json
+  [
+    {
+      "id": 2,
+      "nombre": "Mouse Logitech G203",
+      "precio": 35000.0,
+      "cantidadStock": 0,
+      "activo": false,
+      "categoriaId": 2,
+      "imagenes": [
+        {
+          "id": 8,
+          "url": "[http://res.cloudinary.com/.../mouse.jpg](http://res.cloudinary.com/.../mouse.jpg)",
+          "descripcion": "Vista superior del mouse"
+        }
+      ]
+    }
+  ]
 }

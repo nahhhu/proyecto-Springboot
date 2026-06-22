@@ -1,16 +1,49 @@
 meta {
   name: Patch Reactivar
   type: http
-  seq: 9
+  seq: 8
 }
 
 patch {
-  url: http://localhost:8080/producto/2/activar
-  body: none
+  url: {{URL_BASE}}/api/v1/productos/2
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "activo":true
+  }
 }
 
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Reactivar producto (Actualización Parcial)
+  
+  Este endpoint permite revertir un borrado lógico, volviendo a habilitar un producto en el catálogo. Utiliza el método HTTP `PATCH` ya que realiza una actualización parcial (modifica únicamente el estado, sin afectar el resto de los datos).
+  
+  ### Body (JSON)
+  El cuerpo de la petición debe enviar explícitamente el cambio de estado deseado. 
+  **Regla Estricta:** El sistema está validado para aceptar *únicamente* la llave `"activo"` con el valor booleano `true`. Si se envía cualquier otro valor, campo, o el JSON vacío, la petición será rechazada.
+  
+  **Ejemplo de Request:**
+  ```json
+  {
+    "activo": true
+  }
+  ```
+  ## Respuesta Esperada (204 No Content)
+  
+  Al igual que en el borrado lógico, si la reactivación es exitosa no hay datos nuevos que devolver. El sistema responde con el código de éxito: 204 No Content.
+    * El cuerpo (Body) de la respuesta estará completamente vacío.
+  
+  ## Otras Respuestas Posibles
+  
+    * **400 Bad Request**: Devuelto si el cuerpo de la petición está vacío, mal formado, o si se intenta enviar un valor no permitido (ej. "activo": false).
+  
+    * **404 Not Found**: Devuelto si el id enviado en la URL no corresponde a ningún producto registrado.
 }

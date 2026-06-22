@@ -2,7 +2,9 @@ package com.techlab.spring.controller;
 
 import com.techlab.spring.dto.CategoriaRequestDTO;
 import com.techlab.spring.dto.CategoriaResponseDTO;
+import com.techlab.spring.dto.ProductoResponseDTO;
 import com.techlab.spring.service.CategoriaService;
+import com.techlab.spring.service.ProductoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,12 @@ import java.util.Map;
 public class CategoriaController {
     //TODO terminar de hacer el controlador de categoria
     private final CategoriaService categoriaService;
+    private final ProductoService productoService;
 
     @Autowired
-    public CategoriaController(CategoriaService categoriaService) {
+    public CategoriaController(CategoriaService categoriaService, ProductoService productoService) {
         this.categoriaService = categoriaService;
+        this.productoService = productoService;
     }
 
     @GetMapping("/")
@@ -46,6 +50,13 @@ public class CategoriaController {
         CategoriaResponseDTO categoriaResponseDTO = categoriaService.obtenerPorNombre(nombre);
         return ResponseEntity.ok(categoriaResponseDTO);
     }
+
+    @GetMapping("/{categoriaId}/productos")
+    public ResponseEntity<List<ProductoResponseDTO>> obtenerProductosPorCategoria(@PathVariable Integer categoriaId) {
+        List<ProductoResponseDTO> productosPorCategoria = productoService.obtenerPorCategoria(categoriaId);
+        return ResponseEntity.ok(productosPorCategoria);
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<CategoriaResponseDTO> crear(@Valid @RequestBody CategoriaRequestDTO nuevo) {

@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: http://localhost:8080/producto/2
+  url: {{URL_BASE}}/api/v1/productos/2
   body: none
   auth: inherit
 }
@@ -13,4 +13,48 @@ get {
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Obtener producto por ID
+  
+  Este endpoint permite consultar todos los detalles de un producto específico proporcionando su identificador único (`id`) en la URL de la petición.
+  
+  ## Respuesta Esperada (200 OK)
+  
+  El sistema devuelve un **objeto único** en formato JSON con la información detallada del producto solicitado.
+  
+  **Estructura de los datos:**
+  * `id`: (int) Identificador único del producto.
+  * `nombre`: (string) Nombre del producto.
+  * `precio`: (double) Precio actual.
+  * `cantidadStock`: (int) Unidades disponibles.
+  * `activo`: (boolean) Estado actual del producto.
+  * `categoriaId`: (int) ID de la categoría a la que pertenece.
+  * `imagenes`: (array) Lista de objetos con las imágenes asociadas. Cada imagen contiene su `id`, `url` pública (Cloudinary), `descripcion` y el `productoId` al que pertenece.
+  
+  **Ejemplo de Respuesta:**
+  ```json
+  {
+    "id": 2,
+    "nombre": "Teclado Mecánico Redragon Kumara",
+    "precio": 80000.0,
+    "cantidadStock": 10,
+    "activo": true,
+    "categoriaId": 3,
+    "imagenes": [
+      {
+        "id": 2,
+        "url": "[http://res.cloudinary.com/dcyrp0moh/image/upload/v1781494415/uycymphxtdzhvhlbc1y.png](http://res.cloudinary.com/dcyrp0moh/image/upload/v1781494415/uycymphxtdzhvhlbc1y.png)",
+        "descripcion": null,
+        "productoId": 2
+      },
+      {
+        "id": 5,
+        "url": "[http://res.cloudinary.com/dcyrp0moh/image/upload/v1781575755/flzyerkhouulejk1gnwv.png](http://res.cloudinary.com/dcyrp0moh/image/upload/v1781575755/flzyerkhouulejk1gnwv.png)",
+        "descripcion": "Teclado Redragon Kumara Blanco",
+        "productoId": 2
+      }
+    ]
+  }
 }

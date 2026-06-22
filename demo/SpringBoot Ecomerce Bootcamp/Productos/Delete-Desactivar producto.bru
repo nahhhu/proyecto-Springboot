@@ -5,7 +5,7 @@ meta {
 }
 
 delete {
-  url: http://localhost:8080/producto/delete/2
+  url: {{URL_BASE}}/api/v1/productos/2
   body: none
   auth: inherit
 }
@@ -13,4 +13,21 @@ delete {
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Eliminar producto (Soft Delete)
+  
+  Este endpoint permite dar de baja un producto específico del catálogo proporcionando su identificador único (`id`) en la URL. 
+  
+  **Nota Arquitectónica:** Para mantener la integridad histórica de la base de datos (por ejemplo, para no romper pedidos antiguos que contengan este producto), este endpoint **no borra** el registro físicamente. En su lugar, realiza un "eliminado lógico", cambiando internamente el campo `activo` del producto a `false`.
+  
+  ## Respuesta Esperada (204 No Content)
+  
+  Dado que la operación fue exitosa pero no hay información nueva que devolverle al cliente, el sistema responde con el estándar de la industria para borrados: un código HTTP **204 No Content**.
+  
+  * El Body de la respuesta estará completamente vacío.
+  
+  ## Otras Respuestas Posibles
+  * **404 Not Found:** Devuelto si el `id` enviado en la URL no corresponde a ningún producto registrado en el sistema.
 }
