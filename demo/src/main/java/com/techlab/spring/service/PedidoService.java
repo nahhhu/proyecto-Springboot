@@ -2,6 +2,7 @@ package com.techlab.spring.service;
 
 import com.techlab.spring.dto.PedidoRequestDTO;
 import com.techlab.spring.dto.PedidoResponseDTO;
+import com.techlab.spring.entity.EstadoPedido;
 import com.techlab.spring.entity.Pedido;
 import com.techlab.spring.entity.Producto;
 import com.techlab.spring.entity.Usuario;
@@ -60,7 +61,7 @@ public class PedidoService implements IPedidoService {
 
         //seteamos fecha, estado y precio total
         pedido.setFecha(LocalDateTime.now());
-        pedido.setEstado("En proceso");
+        pedido.setEstado(EstadoPedido.PENDIENTE);
         Double totalCalculado = calcularTotal(pedido.getProductos());
         pedido.setTotal(totalCalculado);
 
