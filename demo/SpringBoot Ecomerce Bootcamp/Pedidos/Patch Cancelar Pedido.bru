@@ -1,0 +1,15 @@
+meta {
+  name: Patch Cancelar Pedido
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{URL_BASE}}/api/v1/pedidos/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

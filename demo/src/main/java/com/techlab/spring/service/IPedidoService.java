@@ -10,5 +10,5 @@ public interface IPedidoService {
 
     List<PedidoResponseDTO> listarPedidos();
 
-    PedidoResponseDTO buscarPedido(int id);
+        PedidoResponseDTO buscarPedido(Integer id);
 }
