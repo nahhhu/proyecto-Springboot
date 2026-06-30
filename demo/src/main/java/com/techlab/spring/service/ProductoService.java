@@ -83,6 +83,16 @@ public class ProductoService implements IProductoService {
         }
 
         List<Producto> entidades = mapper.toEntityList(productos);
+
+        for (int i = 0; i < productos.size(); i++){
+            Integer idCategoria = productos.get(i).categoriaId();
+            Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(()-> new CategoriaNotFoundException("La categoria con id: " + idCategoria + " no existe"));
+
+            entidades.get(i).setCategoria(categoria);
+
+            entidades.get(i).setActivo(true);
+        }
+
         List<Producto> guardados = repo.saveAll(entidades);
         return mapper.toDtoList(guardados);
     }
