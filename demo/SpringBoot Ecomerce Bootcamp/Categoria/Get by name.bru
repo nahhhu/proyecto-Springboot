@@ -1,0 +1,20 @@
+meta {
+  name: Get by name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{URL_BASE}}/api/v1/categorias?nombre=Mouse Oficina
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nombre: Mouse Oficina
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

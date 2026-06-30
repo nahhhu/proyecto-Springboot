@@ -1,0 +1,16 @@
+meta {
+  name: Patch Reactivar
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{URL_BASE}}/api/v1/categorias/3/activar
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

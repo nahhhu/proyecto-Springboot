@@ -1,0 +1,26 @@
+meta {
+  name: Post imagen
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL_BASE}}/api/v1/imagenes/subir
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  archivo: @file(C:\Users\nahuc\Downloads\Kumara-blanco.png)
+  productoId: 2
+  descripcion: Teclado Redragon Kumara Blanco
+}
+
+body:file {
+  file: @file(C:\Users\nahuc\Downloads\KUMARA.png) @contentType(image/png)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

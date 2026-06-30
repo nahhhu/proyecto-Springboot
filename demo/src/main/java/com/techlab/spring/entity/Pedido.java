@@ -18,8 +18,6 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String estado;
-
     private double total;
 
     private LocalDateTime fecha;
@@ -29,6 +27,10 @@ public class Pedido {
 
     @ManyToMany
     private List<Producto> productos;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoPedido estado;
 
     @PrePersist
     protected void onCreate() {

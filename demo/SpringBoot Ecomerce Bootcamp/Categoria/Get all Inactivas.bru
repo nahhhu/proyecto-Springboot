@@ -1,11 +1,11 @@
 meta {
-  name: Order List
+  name: Get all Inactivas
   type: http
-  seq: 7
+  seq: 2
 }
 
 get {
-  url: http://localhost:8080/pedido
+  url: {{URL_BASE}}/api/v1/categorias/inactivas
   body: none
   auth: inherit
 }

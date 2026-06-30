@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedido")
+@RequestMapping("/api/v1/pedidos")
 public class PedidoController {
 
     private final PedidoService service;
@@ -19,7 +19,7 @@ public class PedidoController {
         this.service = service;
     }
 
-    @PostMapping("/crear")
+    @PostMapping("/")
     public ResponseEntity<PedidoResponseDTO> crearPedido(@RequestBody PedidoRequestDTO pedidoRequest) {
         PedidoResponseDTO nuevo = service.crearPedido(pedidoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
@@ -32,7 +32,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PedidoResponseDTO> buscarPorId(@PathVariable int id) {
+    public ResponseEntity<PedidoResponseDTO> buscarPorId(@PathVariable Integer id) {
         PedidoResponseDTO pedidoEncontrado = service.buscarPedido(id);
         return ResponseEntity.ok(pedidoEncontrado);
     }

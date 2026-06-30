@@ -1,11 +1,11 @@
 meta {
-  name: get by category
+  name: Delete/Deactivate category
   type: http
-  seq: 4
+  seq: 8
 }
 
-get {
-  url: http://localhost:8080/producto/category/Periférico
+delete {
+  url: {{URL_BASE}}/api/v1/categorias/3
   body: none
   auth: inherit
 }

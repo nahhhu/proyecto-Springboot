@@ -1,13 +1,13 @@
 meta {
-  name: get all
+  name: Get by id
   type: http
-  seq: 1
+  seq: 3
 }
 
 get {
-  url: http://localhost:8080/producto/
+  url: {{URL_BASE}}/api/v1/categorias/1
   body: none
-  auth: none
+  auth: inherit
 }
 
 settings {

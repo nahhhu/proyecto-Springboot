@@ -1,0 +1,52 @@
+meta {
+  name: Post
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{URL_BASE}}/api/v1/productos/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "nombre": "Teclado Mecánico Redragon Kumara",
+      "descripcion": "Teclado mecánico TKL ideal para gaming y escritura",
+      "precio": 80000,
+      "cantidadStock": 10,
+      "categoriaId": 3
+    }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Crear un nuevo producto
+  Este endpoint permite registrar un nuevo producto en el catálogo.
+  
+  ### Body (JSON)
+  para la creación, el sistema genera automáticamente la llave primaria y establece el valor por defecto.
+  **Importante**: El JSON enviad **NO** debe requerir el campo `id` ni el campo `activo` (esto se gestiona de forma automática en el backend).
+  
+  **Ejemplo de request**:
+  ```json
+  {
+    "nombre": "Teclado Redragon Kumara",
+    "descripcion": "Teclado mecánico TKL switch red",
+    "precio": 85000.0,
+    "stock": 15,
+    "categoriaId": 2
+  }
+  ```
+  
+  
+  ### Respuestas esperadas:
+  * **201 Created**: El producto fue guardado exitosamente en la base de datos. Retorna el DTO del producto creado (incluyendo su id y estado `activo: true`)
+  * **400 Bad Request**: Ocurre si la validación falla (ej: precio negativo, falta nombre, etc).
+  * **500 Internal Server Error**: Error del lado del servidor (por ejemplo: bse de datos caía). 
+}

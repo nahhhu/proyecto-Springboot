@@ -1,23 +1,28 @@
 package com.techlab.spring.service;
 
-import com.techlab.spring.dto.ProductoDTO;
+import com.techlab.spring.dto.ProductoRequestDTO;
+import com.techlab.spring.dto.ProductoResponseDTO;
 
 import java.util.List;
 
 public interface IProductoService {
-    ProductoDTO crear(ProductoDTO productoDTO);
+    ProductoResponseDTO crear(ProductoRequestDTO productoRequestDTO);
 
-    List<ProductoDTO> crearProductos(List<ProductoDTO> productosDTO);
+    List<ProductoResponseDTO> crearProductos(List<ProductoRequestDTO> productoRequestDTOList);
 
-    List<ProductoDTO> listarProductos();
+    List<ProductoResponseDTO> listarProductos();
 
-    ProductoDTO obtenerPorId(int id);
+    List<ProductoResponseDTO> listarProductosInactivos();
 
-    List<ProductoDTO> obtenerPorNombre(String nombre);
+    ProductoResponseDTO obtenerPorId(Integer id);
 
-    List<ProductoDTO> obtenerPorCategoria(String categoria);
+    List<ProductoResponseDTO> obtenerPorNombre(String nombre);
 
-    ProductoDTO actualizar(int id, ProductoDTO datosDto);
+    List<ProductoResponseDTO> obtenerPorCategoria(Integer categoriaId);
 
-    Boolean eliminar(int id);
+    ProductoResponseDTO actualizar(Integer id, ProductoResponseDTO datosDto);
+
+    boolean desactivar(Integer id);
+
+    boolean activar(Integer id);
 }

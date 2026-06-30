@@ -1,7 +1,8 @@
 package com.techlab.spring.controller;
 
 
-import com.techlab.spring.dto.ProductoDTO;
+import com.techlab.spring.dto.ProductoRequestDTO;
+import com.techlab.spring.dto.ProductoResponseDTO;
 import com.techlab.spring.service.ProductoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
+//TODO mejorar ruteos
 
 @RestController
-@RequestMapping("/producto")
+@RequestMapping("/api/v1/productos")
 public class ProductController {
     private final ProductoService productoService;
 
@@ -22,50 +26,58 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ProductoDTO>> listarProductos() {
-        List<ProductoDTO> productos = productoService.listarProductos();
+    public ResponseEntity<List<ProductoResponseDTO>> listarProductos() {
+        List<ProductoResponseDTO> productos = productoService.listarProductos();
+        return ResponseEntity.ok(productos);
+    }
+
+    @GetMapping("/inactivos")
+    public ResponseEntity<List<ProductoResponseDTO>> listarProductosInactivos(){
+        List<ProductoResponseDTO> productos = productoService.listarProductosInactivos();
         return ResponseEntity.ok(productos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoDTO> obtenerProducto(@PathVariable int id) {
-        ProductoDTO productoEncontrado = productoService.obtenerPorId(id);
+    public ResponseEntity<ProductoResponseDTO> obtenerProducto(@PathVariable Integer id) {
+        ProductoResponseDTO productoEncontrado = productoService.obtenerPorId(id);
         return ResponseEntity.ok(productoEncontrado);
     }
 
-    @GetMapping("/name/{nombre}")
-    public ResponseEntity<List<ProductoDTO>> obtenerPorNombre(@PathVariable String nombre) {
-        List<ProductoDTO> productosPorNombre = productoService.obtenerPorNombre(nombre);
+    @GetMapping(params = "nombre")
+    public ResponseEntity<List<ProductoResponseDTO>> obtenerPorNombre(@RequestParam String nombre) {
+        List<ProductoResponseDTO> productosPorNombre = productoService.obtenerPorNombre(nombre);
         return ResponseEntity.ok(productosPorNombre);
     }
 
-    @GetMapping("/category/{categoria}")
-    public ResponseEntity<List<ProductoDTO>> obtenerPorCategoria(@PathVariable String categoria) {
-        List<ProductoDTO> productosPorCategoria = productoService.obtenerPorCategoria(categoria);
-        return ResponseEntity.ok(productosPorCategoria);
-    }
-
     @PostMapping("/")//recibe un solo dato(un producto)
-    public ResponseEntity<ProductoDTO> crearProducto(@RequestBody @Valid ProductoDTO nuevo) {
-        ProductoDTO creado = productoService.crear(nuevo);
+    public ResponseEntity<ProductoResponseDTO> crearProducto(@RequestBody @Valid ProductoRequestDTO nuevo) {
+        ProductoResponseDTO creado = productoService.crear(nuevo);
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
 
     @PostMapping("/list")//recibe un conjunto de datos(lista de productos)
-    public ResponseEntity<List<ProductoDTO>> crearProductos(@Valid @RequestBody List<ProductoDTO> productos) {
-        List<ProductoDTO> creado = productoService.crearProductos(productos);
+    public ResponseEntity<List<ProductoResponseDTO>> crearProductos(@Valid @RequestBody List<ProductoRequestDTO> productos) {
+        List<ProductoResponseDTO> creado = productoService.crearProductos(productos);
         return new ResponseEntity<>(creado, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ProductoDTO> actualizarProducto(@PathVariable int id, @Valid @RequestBody ProductoDTO datos) {
-        ProductoDTO productoActualizado = productoService.actualizar(id, datos);
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Integer id, @Valid @RequestBody ProductoResponseDTO datos) {
+        ProductoResponseDTO productoActualizado = productoService.actualizar(id, datos);
         return ResponseEntity.ok(productoActualizado);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable int id) {
-        productoService.eliminar(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desactivarProducto(@PathVariable Integer id) {
+        productoService.desactivar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> activarProducto(@PathVariable Integer id, @RequestBody Map<String, Boolean> estado){
+        if(Boolean.TRUE.equals(estado.get("activo"))){
+            productoService.activar(id);
+        }
         return ResponseEntity.noContent().build();
     }
 }

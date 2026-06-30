@@ -1,0 +1,16 @@
+meta {
+  name: Delete Imagen
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{URL_BASE}}/api/v1/imagenes/4
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

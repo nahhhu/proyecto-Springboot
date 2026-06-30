@@ -1,0 +1,27 @@
+meta {
+  name: Post categoria list
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{URL_BASE}}/api/v1/categorias/list
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [
+    {
+      "nombre":"Teclado Membrana"
+    },
+    {
+      "nombre":"Teclado Mecánico"
+    }
+  ]
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,11 +1,11 @@
 meta {
-  name: Get by name
+  name: get producto by category
   type: http
-  seq: 3
+  seq: 5
 }
 
 get {
-  url: http://localhost:8080/producto/name/Mouse Gamer Logitech G502
+  url: {{URL_BASE}}/api/v1/categorias/3/productos
   body: none
   auth: inherit
 }

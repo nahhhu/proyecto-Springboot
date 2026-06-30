@@ -1,0 +1,69 @@
+meta {
+  name: Get by name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{URL_BASE}}/api/v1/productos/?nombre=Teclado Mecánico Redragon Kumara
+  body: none
+  auth: inherit
+}
+
+params:query {
+  nombre: Teclado Mecánico Redragon Kumara
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Buscar productos por nombre
+  
+  Este endpoint permite buscar o filtrar productos en el catálogo proporcionando su nombre.
+  
+  ### Parámetros de Consulta (Query Params)
+  La petición no utiliza variables de ruta, sino que requiere enviar el parámetro de búsqueda `nombre` directamente en la URL (`?nombre=...`).
+  
+  ## Respuesta Esperada (200 OK)
+  
+  El sistema devuelve un **arreglo (array)** en formato JSON con todos los productos que coincidan con el criterio de búsqueda. Si solo hay una coincidencia, devolverá un arreglo con un único objeto en su interior. Si no hay coincidencias, devolverá un arreglo vacío `[]`.
+  
+  **Estructura de los datos:**
+  * `id`: (int) Identificador único del producto.
+  * `nombre`: (string) Nombre del producto.
+  * `precio`: (double) Precio actual.
+  * `cantidadStock`: (int) Unidades disponibles.
+  * `activo`: (boolean) Estado actual del producto.
+  * `categoriaId`: (int) ID de la categoría a la que pertenece.
+  * `imagenes`: (array) Lista de objetos con las imágenes asociadas. Cada imagen contiene su `id`, `url` pública (Cloudinary), `descripcion` y el `productoId` al que pertenece.
+  
+  **Ejemplo de Respuesta:**
+  ```json
+  [
+    {
+      "id": 2,
+      "nombre": "Teclado Mecánico Redragon Kumara",
+      "precio": 80000.0,
+      "cantidadStock": 10,
+      "activo": true,
+      "categoriaId": 3,
+      "imagenes": [
+        {
+          "id": 2,
+          "url": "[http://res.cloudinary.com/dcyrp0moh/image/upload/v1781494415/uycymphxtdzhvhlbc1y.png](http://res.cloudinary.com/dcyrp0moh/image/upload/v1781494415/uycymphxtdzhvhlbc1y.png)",
+          "descripcion": null,
+          "productoId": 2
+        },
+        {
+          "id": 5,
+          "url": "[http://res.cloudinary.com/dcyrp0moh/image/upload/v1781575755/flzyerkhouulejk1gnwv.png](http://res.cloudinary.com/dcyrp0moh/image/upload/v1781575755/flzyerkhouulejk1gnwv.png)",
+          "descripcion": "Teclado Redragon Kumara Blanco",
+          "productoId": 2
+        }
+      ]
+    }
+  ]
+}
