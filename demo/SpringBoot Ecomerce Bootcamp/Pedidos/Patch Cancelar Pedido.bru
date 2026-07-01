@@ -5,11 +5,12 @@ meta {
 }
 
 patch {
-  url: {{URL_BASE}}/api/v1/pedidos/
+  url: {{URL_BASE}}/api/v1/pedidos/cancelar/1
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
