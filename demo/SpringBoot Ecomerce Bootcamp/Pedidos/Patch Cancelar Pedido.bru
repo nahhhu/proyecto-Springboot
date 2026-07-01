@@ -1,11 +1,11 @@
 meta {
-  name: Get all
+  name: Patch Cancelar Pedido
   type: http
-  seq: 1
+  seq: 5
 }
 
-get {
-  url: {{URL_BASE}}/api/v1/pedidos/list
+patch {
+  url: {{URL_BASE}}/api/v1/pedidos/cancelar/1
   body: none
   auth: inherit
 }

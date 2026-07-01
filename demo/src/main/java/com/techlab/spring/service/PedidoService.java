@@ -78,9 +78,30 @@ public class PedidoService implements IPedidoService {
     }
 
     @Override
-    public PedidoResponseDTO buscarPedido(int id) {
+        public PedidoResponseDTO buscarPedido(Integer id) {
         Pedido pedido = repo.findById(id).orElseThrow(() -> new PedidoNotFoundException("El pedido con ID: " + id + "no existe"));
         return pedidoMapper.toResponseDto(pedido);
+    }
+
+    public List<PedidoResponseDTO> filtrarPedidoPorEstado(EstadoPedido estado) {
+        List<Pedido> pedidos = repo.findByEstado(estado);
+        if (pedidos.isEmpty()) {
+            throw new PedidoNotFoundException("No se encontraron pedidos con el estado: " + estado);
+        }
+        return pedidoMapper.pedidoResponseDTOList(pedidos);
+    }
+
+    public PedidoResponseDTO cancelarPedido(Integer id){
+        Pedido pedido = repo.findById(id).orElseThrow(() -> new PedidoNotFoundException("El pedido con ID: " + id + "no existe"));
+        if(pedido.getEstado() == EstadoPedido.PAGADO){
+            throw new CrearPedidoException("No se puede cancelar un pedido que ya ha sido pagado");
+        }
+        if(pedido.getEstado() == EstadoPedido.CANCELADO){
+            throw new CrearPedidoException("El pedido ya se encuentra cancelado");
+        }
+        pedido.setEstado(EstadoPedido.CANCELADO);
+        Pedido pedidoActualizado = repo.save(pedido);
+        return pedidoMapper.toResponseDto(pedidoActualizado);
     }
 
     private Double calcularTotal(List<Producto> productos) {

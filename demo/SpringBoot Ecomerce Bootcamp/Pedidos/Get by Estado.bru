@@ -1,0 +1,20 @@
+meta {
+  name: Get by Estado
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{URL_BASE}}/api/v1/pedidos/estado/?estado=
+  body: none
+  auth: inherit
+}
+
+params:query {
+  estado: 
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
