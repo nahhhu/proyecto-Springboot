@@ -10,6 +10,7 @@ import com.techlab.spring.entity.Producto;
 import com.techlab.spring.entity.Usuario;
 import com.techlab.spring.exception.CrearPedidoException;
 import com.techlab.spring.exception.PedidoEstadoInvalidoException;
+import com.techlab.spring.exception.PedidoNotFoundException;
 import com.techlab.spring.exception.StockInsuficienteException;
 import com.techlab.spring.mapper.PedidoMapper;
 import com.techlab.spring.repository.PedidoRepository;
@@ -156,6 +157,24 @@ class PedidoServiceTest {
     }
 
     @Test
+    @DisplayName("Sad Path: Devuelve una lista vacia cuando se piden pedidos y noo hay ninguno")
+    void listarPedidos_DevuelveListaVaciaCuandoNoHayPedidos(){
+        List<Pedido> listaPedidoVacia = List.of();
+        List<PedidoResponseDTO> listaVacia = List.of();
+
+        when(repo.findAll()).thenReturn(listaPedidoVacia);
+        when(pedidoMapper.pedidoResponseDTOList(listaPedidoVacia)).thenReturn(listaVacia);
+
+        var resultado = pedidoService.listarPedidos();
+
+        assertEquals(0, resultado.size(), "Deve devolver 0 pedidos");
+
+        verify(repo, times(1)).findAll();
+        verify(pedidoMapper,times(1)).pedidoResponseDTOList(listaPedidoVacia);
+
+    }
+
+    @Test
     @DisplayName("Happy path: Devuele el pedido correspondiente al ID")
     void buscarPedido() {
         int id = 1;
@@ -173,5 +192,17 @@ class PedidoServiceTest {
 
         verify(repo, times(1)).findById(id);
         verify(pedidoMapper,times(1)).toResponseDto(pedido);
+    }
+
+    @Test
+    @DisplayName("Sad Path: Devuelve error al no existir el pedido")
+    void buscarPedido_LanzaErrorCuandoPedidoNoExiste(){
+        int id =1;
+        when(repo.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(PedidoNotFoundException.class, ()-> pedidoService.buscarPedido(id));
+
+        verify(repo,times(1)).findById(id);
+        verify(pedidoMapper,never()).toResponseDto(any());
     }
 }
