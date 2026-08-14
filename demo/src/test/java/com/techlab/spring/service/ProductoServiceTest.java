@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -121,7 +122,20 @@ public class ProductoServiceTest {
     @Test
     @DisplayName("Happy Path: Devuelve el producto correspondiente al nombre")
     void obtenerPorNombre_NombreValido(){
+        List<Producto> productos = List.of(TestObject.crearProductoValido());
+        List<ProductoResponseDTO> productoResponseDTOS = List.of(TestObject.productoResponseDTO());
+        String productoNombre = "Teclado mecanico";
 
+        when(repo.findByNombreContainingIgnoreCase(productoNombre)).thenReturn(productos);
+        when(mapper.toDtoList(productos)).thenReturn(productoResponseDTOS);
+
+        var resultado = service.obtenerPorNombre(productoNombre);
+
+        assertEquals(productoResponseDTOS, resultado);
+
+        verify(repo,times(1)).findByNombreContainingIgnoreCase(productoNombre);
+        verify(mapper,times(1)).toDtoList(productos);
     }
+
 }
 
