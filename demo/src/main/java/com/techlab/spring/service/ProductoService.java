@@ -34,7 +34,7 @@ public class ProductoService implements IProductoService {
     public List<ProductoResponseDTO> listarProductosInactivos(){return mapper.toDtoList(repo.findAllInactivos());}
 
     @Override
-    public ProductoResponseDTO obtenerPorId(Integer id) {
+    public ProductoResponseDTO obtenerPorId(Integer id)  {
         return repo.findById(id)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new ProductoNotFoundException("El producto con el id: " + id + " no existe"));

@@ -137,5 +137,39 @@ public class ProductoServiceTest {
         verify(mapper,times(1)).toDtoList(productos);
     }
 
+    @Test
+    @DisplayName("Sad Path: Devuelve error debido a que no existen productos con el nombre")
+    void obtenerPorNombre_FallaNombreInvalido(){
+        String nombre = "Teclado mecanido";
+
+        when(repo.findByNombreContainingIgnoreCase(nombre)).thenReturn(List.of());
+
+        assertThrows(ProductoNotFoundException.class, () -> service.obtenerPorNombre(nombre));
+
+        verify(repo,times(1)).findByNombreContainingIgnoreCase(nombre);
+        verify(mapper,never()).toDtoList(any());
+    }
+
+    @Test
+    @DisplayName("Happy Path: Busca productos por categoria")
+    void obtenerPorCategoria_CategoriaValida(){
+        List<Producto> productos = List.of(TestObject.crearProductoValido());
+        List<ProductoResponseDTO> productoResponseDTOS = List.of(TestObject.productoResponseDTO());
+        int categoriaId = 1;
+
+        when(repo.findByCategoriaId(categoriaId)).thenReturn(productos);
+        when(mapper.toDtoList(productos)).thenReturn(productoResponseDTOS);
+
+        var resultado = service.obtenerPorCategoria(categoriaId);
+
+        verify(repo,times(1)).findByCategoriaId(categoriaId);
+        verify(mapper,times(1)).toDtoList(productos);
+    }
+
+    @Test
+    @DisplayName("Sad Path: No devuelve debido a que no hay productos que contengan esa categoria")
+    void buscarPorCategoria_FallaCuandoNoProductosConCategoria(){
+
+    }
 }
 
