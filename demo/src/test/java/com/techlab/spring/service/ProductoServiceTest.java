@@ -14,9 +14,12 @@ import com.techlab.spring.repository.ProductoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import javax.swing.text.html.Option;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -54,6 +57,7 @@ public class ProductoServiceTest {
 
         when(repo.save(any(Producto.class))).thenReturn(producto);
 
+        //TODO Guardar en variable para luego verficcarla en el equals
         service.crear(productoRequestDTO);
 
         verify(repo).save(producto);
@@ -169,7 +173,39 @@ public class ProductoServiceTest {
     @Test
     @DisplayName("Sad Path: No devuelve debido a que no hay productos que contengan esa categoria")
     void buscarPorCategoria_FallaCuandoNoProductosConCategoria(){
+        int categoriaId = 1;
 
+        when(repo.findByCategoriaId(categoriaId)).thenReturn(List.of());
+
+        assertThrows(ProductoNotFoundException.class, () -> service.obtenerPorCategoria(categoriaId));
+
+        verify(repo,times(1)).findByCategoriaId(categoriaId);
+        verify(mapper,never()).toDtoList(any());
+    }
+
+    @Test
+    @DisplayName("Happy path: Puede crear la lista de productos")
+    void crearListaProductos_CamposValidos(){
+        int categoriaId = 1;
+        Categoria categoria =TestObject.crearCategoriaValida();
+        List<Producto> productos = List.of(TestObject.crearProductoValido());
+        List<ProductoRequestDTO> productoRequestDTOs = List.of(TestObject.productoRequestDTO());
+
+        List<ProductoResponseDTO> productoResponseDTOS = List.of(TestObject.productoResponseDTO());
+
+        when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.of(categoria));
+        when(mapper.toEntityList(productoRequestDTOs)).thenReturn(productos);
+        when(repo.saveAll(productos)).thenReturn(productos);
+
+        when(mapper.toDtoList(productos)).thenReturn(productoResponseDTOS);
+
+        var resultado = service.crearProductos(productoRequestDTOs);
+
+        assertEquals(productoResponseDTOS, resultado);
+
+        verify(categoriaRepository,times(1)).findById(categoriaId);
+        verify(mapper,times(1)).toEntityList(productoRequestDTOs);
+        verify(repo,times(1)).saveAll(productos);
     }
 }
 
