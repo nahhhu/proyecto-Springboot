@@ -52,17 +52,20 @@ public class ProductoServiceTest {
         Producto producto = TestObject.crearProductoValido();
         ProductoRequestDTO productoRequestDTO = TestObject.productoRequestDTO();
 
+        ProductoResponseDTO productoResponseDTO = TestObject.productoResponseDTO();
+
         when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.of(categoria));
         when(mapper.toEntity(productoRequestDTO)).thenReturn(producto);
-
         when(repo.save(any(Producto.class))).thenReturn(producto);
+        
+        when(mapper.toDto(producto)).thenReturn(productoResponseDTO);
 
-        //TODO Guardar en variable para luego verficcarla en el equals
-        service.crear(productoRequestDTO);
+        var resultado = service.crear(productoRequestDTO);
 
         verify(repo).save(producto);
-
         assertEquals(categoria,producto.getCategoria());
+
+        assertEquals(productoResponseDTO, resultado);
     }
 
     @Test
@@ -192,7 +195,9 @@ public class ProductoServiceTest {
         List<ProductoRequestDTO> productoRequestDTOs = List.of(TestObject.productoRequestDTO());
 
         List<ProductoResponseDTO> productoResponseDTOS = List.of(TestObject.productoResponseDTO());
+        String nombreProducto = productoRequestDTOs.get(0).nombre();
 
+        when(repo.existsByNombreIgnoreCase(nombreProducto)).thenReturn(false);
         when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.of(categoria));
         when(mapper.toEntityList(productoRequestDTOs)).thenReturn(productos);
         when(repo.saveAll(productos)).thenReturn(productos);
@@ -207,5 +212,20 @@ public class ProductoServiceTest {
         verify(mapper,times(1)).toEntityList(productoRequestDTOs);
         verify(repo,times(1)).saveAll(productos);
     }
+
+    @Test
+    @DisplayName("Sad Path: No crea el producto debido a que existe")
+    void crearListaDeProductos_NoFuncionaProductoDuplicado(){
+        List<ProductoRequestDTO> productoRequestDTOS = List.of(TestObject.productoRequestDTO());
+        String nombreProducto = productoRequestDTOS.get(0).nombre();
+
+        when(repo.existsByNombreIgnoreCase(nombreProducto)).thenReturn(true);
+        assertThrows(ProductoDuplicadoException.class, ()-> service.crearProductos(productoRequestDTOS));
+
+        verify(repo,times(1)).existsByNombreIgnoreCase(nombreProducto);
+        verify(mapper,never()).toEntityList(any());
+    }
+
+
 }
 
