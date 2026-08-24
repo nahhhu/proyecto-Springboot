@@ -5,6 +5,7 @@ import com.techlab.spring.dto.ProductoRequestDTO;
 import com.techlab.spring.dto.ProductoResponseDTO;
 import com.techlab.spring.entity.Categoria;
 import com.techlab.spring.entity.Producto;
+import com.techlab.spring.exception.CategoriaDuplicadaException;
 import com.techlab.spring.exception.CategoriaNotFoundException;
 import com.techlab.spring.exception.ProductoDuplicadoException;
 import com.techlab.spring.exception.ProductoNotFoundException;
@@ -94,7 +95,6 @@ public class ProductoServiceTest {
         verify(mapper,never()).toEntity(any());
         verify(repo,never()).save(any(Producto.class));
     }
-
 
     @Test
     @DisplayName("Happy Path: Devuelve el producto cuando el id es correcto")
@@ -214,7 +214,7 @@ public class ProductoServiceTest {
     }
 
     @Test
-    @DisplayName("Sad Path: No crea el producto debido a que existe")
+    @DisplayName("Sad Path: No crea la lista de productos debido a que al menos 1 ya existe")
     void crearListaDeProductos_NoFuncionaProductoDuplicado(){
         List<ProductoRequestDTO> productoRequestDTOS = List.of(TestObject.productoRequestDTO());
         String nombreProducto = productoRequestDTOS.get(0).nombre();
@@ -224,6 +224,25 @@ public class ProductoServiceTest {
 
         verify(repo,times(1)).existsByNombreIgnoreCase(nombreProducto);
         verify(mapper,never()).toEntityList(any());
+    }
+
+    @Test
+    @DisplayName("Sad Path: No crea la lista de productos debido a que la categoria seleccionada para al menos 1 producto no existe")
+    void crearListaDeProductos_NoFuncionaNoExisteCategoria(){
+        int categoriaId = TestObject.crearCategoriaValida().getId();
+        List<ProductoRequestDTO> productoRequestDTOS = List.of(TestObject.productoRequestDTO());
+        String nombreProducto = productoRequestDTOS.get(0).nombre();
+        List<Producto> productos = List.of(TestObject.crearProductoValido());
+
+        when(repo.existsByNombreIgnoreCase(nombreProducto)).thenReturn(false);
+        when(mapper.toEntityList(productoRequestDTOS)).thenReturn(productos);
+        when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.empty());
+
+        assertThrows(CategoriaNotFoundException.class, ()-> service.crearProductos(productoRequestDTOS));
+
+        verify(mapper,times(1)).toEntityList(any());
+        verify(repo,never()).saveAll(any());
+        verify(categoriaRepository,times(1)).findById(categoriaId);
     }
 
 
