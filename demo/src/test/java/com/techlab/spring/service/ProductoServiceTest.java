@@ -169,6 +169,8 @@ public class ProductoServiceTest {
 
         var resultado = service.obtenerPorCategoria(categoriaId);
 
+        assertEquals(productoResponseDTOS, resultado);
+
         verify(repo,times(1)).findByCategoriaId(categoriaId);
         verify(mapper,times(1)).toDtoList(productos);
     }
@@ -229,8 +231,8 @@ public class ProductoServiceTest {
     @Test
     @DisplayName("Sad Path: No crea la lista de productos debido a que la categoria seleccionada para al menos 1 producto no existe")
     void crearListaDeProductos_NoFuncionaNoExisteCategoria(){
-        int categoriaId = TestObject.crearCategoriaValida().getId();
         List<ProductoRequestDTO> productoRequestDTOS = List.of(TestObject.productoRequestDTO());
+        int categoriaId = productoRequestDTOS.get(0).categoriaId();
         String nombreProducto = productoRequestDTOS.get(0).nombre();
         List<Producto> productos = List.of(TestObject.crearProductoValido());
 
@@ -245,6 +247,140 @@ public class ProductoServiceTest {
         verify(categoriaRepository,times(1)).findById(categoriaId);
     }
 
+    @Test
+    @DisplayName("Happy Path: Lista los productos activos")
+    void listarProductos_CamposValidos(){
+        List<Producto> productos = List.of(TestObject.crearProductoValido());
+        List<ProductoResponseDTO> productoResponseDTOS = List.of(TestObject.productoResponseDTO());
+
+        when(repo.findAllActivos()).thenReturn(productos);
+        when(mapper.toDtoList(productos)).thenReturn(productoResponseDTOS);
+
+        var resultado = service.listarProductos();
+
+        assertEquals(productoResponseDTOS, resultado);
+
+        verify(repo,times(1)).findAllActivos();
+        verify(mapper,times(1)).toDtoList(productos);
+    }
+
+    @Test
+    @DisplayName("Happy Path: Lista los productos inactivos")
+    void listarProductosInactivos_CamposValidos(){
+        List<Producto> productos = List.of(TestObject.crearProductoValido());
+        List<ProductoResponseDTO> productoResponseDTOS = List.of(TestObject.productoResponseDTO());
+
+        when(repo.findAllInactivos()).thenReturn(productos);
+        when(mapper.toDtoList(productos)).thenReturn(productoResponseDTOS);
+
+        var resultado = service.listarProductosInactivos();
+
+        assertEquals(productoResponseDTOS, resultado);
+
+        verify(repo,times(1)).findAllInactivos();
+        verify(mapper,times(1)).toDtoList(productos);
+    }
+
+    @Test
+    @DisplayName("Happy Path: Actualiza un producto existente")
+    void actualizarProducto_CamposValidos(){
+        int productoId = 1;
+        Producto producto = TestObject.crearProductoValido();
+        ProductoResponseDTO datosActualizados = TestObject.productoResponseDTO();
+        ProductoResponseDTO productoResponseDTO = TestObject.productoResponseDTO();
+
+        when(repo.findById(productoId)).thenReturn(Optional.of(producto));
+        doNothing().when(mapper).updateEntityFromDto(datosActualizados, producto);
+        when(repo.save(producto)).thenReturn(producto);
+        when(mapper.toDto(producto)).thenReturn(productoResponseDTO);
+
+        var resultado = service.actualizar(productoId, datosActualizados);
+
+        assertEquals(productoResponseDTO, resultado);
+
+        verify(repo,times(1)).findById(productoId);
+        verify(mapper,times(1)).updateEntityFromDto(datosActualizados, producto);
+        verify(repo,times(1)).save(producto);
+        verify(mapper,times(1)).toDto(producto);
+    }
+
+    @Test
+    @DisplayName("Sad Path: No actualiza el producto porque no existe")
+    void actualizarProducto_FallaCuandoNoExiste(){
+        int productoId = 1;
+        ProductoResponseDTO datosActualizados = TestObject.productoResponseDTO();
+
+        when(repo.findById(productoId)).thenReturn(Optional.empty());
+
+        assertThrows(ProductoNotFoundException.class, () -> service.actualizar(productoId, datosActualizados));
+
+        verify(repo,times(1)).findById(productoId);
+        verify(mapper,never()).updateEntityFromDto(any(), any());
+        verify(repo,never()).save(any(Producto.class));
+    }
+
+    @Test
+    @DisplayName("Happy Path: Desactiva un producto existente")
+    void desactivarProducto_CamposValidos(){
+        int productoId = 1;
+        Producto producto = TestObject.crearProductoValido();
+
+        when(repo.findById(productoId)).thenReturn(Optional.of(producto));
+        when(repo.save(producto)).thenReturn(producto);
+
+        var resultado = service.desactivar(productoId);
+
+        assertEquals(true, resultado);
+        assertEquals(false, producto.isActivo());
+
+        verify(repo,times(1)).findById(productoId);
+        verify(repo,times(1)).save(producto);
+    }
+
+    @Test
+    @DisplayName("Sad Path: No desactiva el producto porque no existe")
+    void desactivarProducto_FallaCuandoNoExiste(){
+        int productoId = 1;
+
+        when(repo.findById(productoId)).thenReturn(Optional.empty());
+
+        assertThrows(ProductoNotFoundException.class, () -> service.desactivar(productoId));
+
+        verify(repo,times(1)).findById(productoId);
+        verify(repo,never()).save(any(Producto.class));
+    }
+
+    @Test
+    @DisplayName("Happy Path: Activa un producto existente")
+    void activarProducto_CamposValidos(){
+        int productoId = 1;
+        Producto producto = TestObject.crearProductoValido();
+        producto.setActivo(false);
+
+        when(repo.findById(productoId)).thenReturn(Optional.of(producto));
+        when(repo.save(producto)).thenReturn(producto);
+
+        var resultado = service.activar(productoId);
+
+        assertEquals(true, resultado);
+        assertEquals(true, producto.isActivo());
+
+        verify(repo,times(1)).findById(productoId);
+        verify(repo,times(1)).save(producto);
+    }
+
+    @Test
+    @DisplayName("Sad Path: No activa el producto porque no existe")
+    void activarProducto_FallaCuandoNoExiste(){
+        int productoId = 1;
+
+        when(repo.findById(productoId)).thenReturn(Optional.empty());
+
+        assertThrows(ProductoNotFoundException.class, () -> service.activar(productoId));
+
+        verify(repo,times(1)).findById(productoId);
+        verify(repo,never()).save(any(Producto.class));
+    }
 
 }
 
