@@ -30,11 +30,3 @@ Para correr el proyecto localmente, hay que configurar las siguientes variables 
 
 ### Documentación de la API
 Una vez que el proyecto esté corriendo, puedes acceder a la documentación interactiva en:  http://localhost:8080/swagger-ui/index.html
-
-### En proceso:
-* **Aseguramiento de calidad**: Desarrollo de test unitarios con Mockito en proceso para garantizar la estabilidad del sistema frente a futuros cambios o refactorizaciones.
-  
-### Proximos pasos:
-Este proyecto es el punto de partida para mi transición hacia el desarrollo backend profesional. Planeo evolucionar esta API implementando los siguientes estándares de la industria:
-* Seguridad (Spring Security + JWT): Planeo implementar un sistema de autenticación mediante tokens JWT, definiendo roles de usuario y protegiento endpoints criticos. 
-* Contenerizacion (Docker): Creacion de un entorno de despliegue reproducible mediante Docker, permitiendo levantar la base de datos y la aplicación con un solo comando.
