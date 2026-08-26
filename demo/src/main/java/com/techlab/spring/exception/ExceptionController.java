@@ -30,6 +30,12 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(PedidoEstadoInvalidoException.class)
+    public ResponseEntity<ErrorResponseDTO> pedidoEstadoInvalidoError(PedidoEstadoInvalidoException ex, HttpServletRequest request) {
+        ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Estado de pedido invalido", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(ProductoDuplicadoException.class)
     public ResponseEntity<ErrorResponseDTO> productoDuplicadoError(ProductoDuplicadoException ex, HttpServletRequest request) {
         ErrorResponseDTO error = new ErrorResponseDTO(LocalDateTime.now(), HttpStatus.CONFLICT.value(), "Conflicto de datos", ex.getMessage(), request.getRequestURI());
