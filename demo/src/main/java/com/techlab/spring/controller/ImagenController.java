@@ -15,14 +15,22 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/api/v1/imagenes")
 @RequiredArgsConstructor
+@Tag(name = "Imagenes", description = "Operaciones para subir y borrar imagenes")
 public class ImagenController {
 
     private final ImagenService imagenService;
     private final ImagenMapper mapper;
 
+    @Operation(summary = "Subir imagen", description = "Sube una imagen y la asocia a un producto")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Imagen subida"), @ApiResponse(responseCode = "500", description = "Error en servidor")})
     @PostMapping("/")
     public ResponseEntity<ImagenResponseDTO> subirFoto(@RequestParam("archivo") MultipartFile archivo, @RequestParam("productoId") Integer productoId, @RequestParam(value = "descripcion", required = false) String descripcion) {
         try {
@@ -36,6 +44,8 @@ public class ImagenController {
         }
     }
 
+    @Operation(summary = "Borrar imagen", description = "Borra una imagen por su ID")
+    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Borrada"), @ApiResponse(responseCode = "404", description = "No encontrada")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> borrar(@PathVariable Integer id){
         imagenService.borrarImagen(id);
