@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TechLabSpringApplication {
 
     public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         String dbPassword = dotenv.get("PASSWORD");
         String cloudinaryUrl = dotenv.get("CLOUDINARY_URL");
         if (dbPassword != null) {
