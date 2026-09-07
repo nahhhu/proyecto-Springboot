@@ -21,11 +21,12 @@ Proyecto que aplica los conocimientos obtenidos en el bootcamp de *talento tech*
 * **Documentación Interactiva**: Podes probar todos los endpoints a través de la interfaz de swagger.
 * **Manejo de Excepciones**: Sistema centralizado para capturar errores y devolver respuestan claras a los clientes.
 * **Subida de imagenes**: Se hizo uso de la API de Cloudinary para poder asignarle imagenes a los productos
-  
+![Demostración subiendo imágenes](subida-imagenes.gif)
 
-### Despliegue
+### Despliegue y Pruebas
 * **Codigo**: Render
 * **BDD**: Aiven
   
-### Documentación de la API
-Podes probarlo en https://proyecto-springboot-idyb.onrender.com/swagger-ui/index.html#/Productos/listarProductos
+### **Documentación Interactiva (Swagger):**
+Podés probar todos los endpoints directamente desde tu navegador haciendo clic en el siguiente enlace: https://proyecto-springboot-idyb.onrender.com/swagger-ui/index.html#/Productos/listarProductos
+*(Nota: Al estar alojado en una capa gratuita, la primera petición puede demorar cerca de 60 segundos en despertar el servidor).*
