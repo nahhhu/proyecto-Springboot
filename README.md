@@ -20,13 +20,12 @@ Proyecto que aplica los conocimientos obtenidos en el bootcamp de *talento tech*
 * **Validación de datos**: Implementación de validaciones para asegurar que los precios, stock y nombres sean correctos antes de persistir.
 * **Documentación Interactiva**: Podes probar todos los endpoints a través de la interfaz de swagger.
 * **Manejo de Excepciones**: Sistema centralizado para capturar errores y devolver respuestan claras a los clientes.
+* **Subida de imagenes**: Se hizo uso de la API de Cloudinary para poder asignarle imagenes a los productos
+  
 
-### Instalación y Configuración
-Para correr el proyecto localmente, hay que configurar las siguientes variables de entorno:
-
-* *DB_URL*: URL de conexión a MySQL
-* *DB_USER*: Usuario de la base de datos.
-* *DB_PASSWORD*: Contraseña de la base de datos.
-
+### Despliegue
+* **Codigo**: Render
+* **BDD**: Aiven
+  
 ### Documentación de la API
-Una vez que el proyecto esté corriendo, puedes acceder a la documentación interactiva en:  http://localhost:8080/swagger-ui/index.html
+Podes probarlo en https://proyecto-springboot-idyb.onrender.com/swagger-ui/index.html#/Productos/listarProductos
